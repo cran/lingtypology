@@ -6,9 +6,13 @@
 \usage{
 map.feature(languages, features = "none", popup = "",
   stroke.features = NULL, latitude = NULL, longitude = NULL,
-  color = NULL, stroke.color = NULL, title = NULL, control = TRUE,
-  legend = TRUE, radius = 5, stroke.radius = 9.5, opacity = 1,
-  stroke.opacity = 1, ...)
+  color = NULL, stroke.color = NULL, image.url = NULL,
+  image.width = 100, image.height = 100, image.X.shift = 0,
+  image.Y.shift = 0, title = NULL, stroke.title = NULL, control = FALSE,
+  legend = TRUE, legend.opacity = 1, stroke.legend = TRUE,
+  stroke.legend.opacity = 1, radius = 5, stroke.radius = 9.5,
+  opacity = 1, stroke.opacity = 1, tile = "OpenStreetMap.Mapnik",
+  tile.name = NULL, glottolog.source = "modified")
 }
 \arguments{
 \item{languages}{character vector of linguoids (can be written in lower case)}
@@ -27,11 +31,29 @@ map.feature(languages, features = "none", popup = "",
 
 \item{stroke.color}{vector of stroke colors}
 
-\item{title}{of a legend}
+\item{image.url}{character vector of URLs with an images}
 
-\item{control}{logical. If FALSE, function doesn't show layer control buttons.}
+\item{image.width}{numeric vector of image widths}
 
-\item{legend}{logical. If FALSE, function doesn't show legend.}
+\item{image.height}{numeric vector of image heights}
+
+\item{image.X.shift}{numeric vector of image's X axis shift relative to the latitude-longitude point}
+
+\item{image.Y.shift}{numeric vector of image's Y axis shift relative to the latitude-longitude point}
+
+\item{title}{title of a legend}
+
+\item{stroke.title}{title of a stroke-feature legend}
+
+\item{control}{logical. If TRUE, function show layer control buttons. By default is TRUE.}
+
+\item{legend}{logical. If TRUE, function show legend. By default is FALSE.}
+
+\item{legend.opacity}{a numeric vector of legend opacity.}
+
+\item{stroke.legend}{logical. If TRUE, function show stroke.legend. By default is FALSE.}
+
+\item{stroke.legend.opacity}{a numeric vector of stroke.legend opacity.}
 
 \item{radius}{a numeric vector of radii for the circles.}
 
@@ -41,48 +63,76 @@ map.feature(languages, features = "none", popup = "",
 
 \item{stroke.opacity}{a numeric vector of stroke opacity.}
 
-\item{...}{further arguments of leaflet package.}
+\item{tile}{a character verctor with a map tiles, popularized by Google Maps. See \href{https://leaflet-extras.github.io/leaflet-providers/preview/index.html}{here} for the complete set.}
+
+\item{tile.name}{a character verctor with a user's map tiles' names}
+
+\item{glottolog.source}{A character vector that define which glottolog database is used: "original" or "modified" (by default)}
 }
 \description{
-Map a set of linguoids and color them by feature
-}
-\details{
-Takes any vector of linguoids and return a map.
+Map a set of linguoids and color them by feature or two sets of features.
 }
 \examples{
 map.feature(c("Adyghe", "Russian"))
 
+## All Sign languages
+map.feature(lang.aff("Sign"))
+
 ## Map all Slavic languages
 map.feature(lang.aff(c("Slavic")))
+
+## Add control buttons
+map.feature(c("Adyghe", "Russian"), control = TRUE)
 
 ## Color linguoids by feature
 df <- data.frame(lang = c("Adyghe", "Kabardian", "Polish", "Russian", "Bulgarian"),
 feature = c("polysynthetic", "polysynthetic", "fusion", "fusion", "fusion"))
 map.feature(df$lang, df$feature)
+## ... or add a control buttons for features
+map.feature(df$lang, df$feature, control = TRUE)
 
 ## Adding pop-up
 df <- data.frame(lang = c("Adyghe", "Kabardian", "Polish", "Russian", "Bulgarian"),
 feature = c("polysynthetic", "polysynthetic", "fusion", "fusion", "fusion"),
-popup = c("Adyghe", "Adyghe", "Slavic", "Slavic", "Slavic"))
+popup = c("Circassian", "Circassian", "Slavic", "Slavic", "Slavic"))
 map.feature(df$lang, df$feature, df$popup)
 
 ## Adding title
 df <- data.frame(lang = c("Adyghe", "Kabardian", "Polish", "Russian", "Bulgarian"),
 feature = c("polysynthetic", "polysynthetic", "fusion", "fusion", "fusion"),
-popup = c("Adyghe", "Adyghe", "Slavic", "Slavic", "Slavic"))
+popup = c("Circassian", "Circassian", "Slavic", "Slavic", "Slavic"))
 map.feature(df$lang, df$feature, df$popup, title = "type of a language")
 
 ## Add your own coordinates
 map.feature("Adyghe", latitude = 43, longitude = 57)
 
+## Change map tile
+map.feature("Adyghe", tile = "Thunderforest.OpenCycleMap")
+map.feature("Adyghe", tile = c("OpenStreetMap.BlackAndWhite", "Thunderforest.OpenCycleMap"))
+map.feature("Adyghe", tile = "Thunderforest.OpenCycleMap", tile.name = "colored")
+
 ## Add you own colors
 df <- data.frame(lang = c("Adyghe", "Kabardian", "Polish", "Russian", "Bulgarian"),
 feature = c("polysynthetic", "polysynthetic", "fusion", "fusion", "fusion"),
-popup = c("Adyghe", "Adyghe", "Slavic", "Slavic", "Slavic"))
+popup = c("Circassian", "Circassian", "Slavic", "Slavic", "Slavic"))
 map.feature(df$lang, df$feature, df$popup, color = c("green", "navy"))
 
-## Remove control buttons
-map.feature(lang.aff("Sign"), control = FALSE)
+## Map two sets of features
+df <- data.frame(lang = c("Adyghe", "Kabardian", "Polish", "Russian", "Bulgarian"),
+feature = c("polysynthetic", "polysynthetic", "fusion", "fusion", "fusion"),
+popup = c("Circassian", "Circassian", "Slavic", "Slavic", "Slavic"))
+map.feature(df$lang, df$feature, df$popup,
+stroke.features = df$popup)
+
+## Add a pictures to plot
+df <- data.frame(lang = c("Russian", "Russian"),
+lat  = c(55.75, 59.95),
+long = c(37.616667, 30.3),
+urls = c("https://goo.gl/5OUv1E", "https://goo.gl/UWmvDw"))
+map.feature(languages = df$lang,
+latitude = df$lat,
+longitude = df$long,
+image.url = df$urls)
 
 }
 \author{

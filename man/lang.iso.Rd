@@ -2,12 +2,14 @@
 % Please edit documentation in R/lang.iso.R
 \name{lang.iso}
 \alias{lang.iso}
-\title{Get languoid by ISO 639-3 code}
+\title{Get languoid by ISO 639--3 code}
 \usage{
-lang.iso(x)
+lang.iso(x, glottolog.source = "modified")
 }
 \arguments{
 \item{x}{A character vector of the ISO codes.}
+
+\item{glottolog.source}{A character vector that define which glottolog database is used: "original" or "modified" (by default)}
 }
 \description{
 Takes any vector of ISO codes and return languoids.

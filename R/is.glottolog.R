@@ -3,6 +3,7 @@
 #' Takes any vector of linguoids or ISO codes and return a logical vector.
 #' @param x A character vector of linguoids (can be written in lower case)or ISO codes
 #' @param response logical. If TRUE, when languoid is absent, return warnings with a possible candidates.
+#' @param glottolog.source A character vector that define which glottolog database is used: "original" or "modified" (by default)
 #' @author George Moroz <agricolamz@gmail.com>
 #' @examples
 #' is.glottolog(c("Adyghe", "Russsian"))
@@ -16,21 +17,23 @@
 #'
 #' @export
 #' @import stringdist
+#'
 
-is.glottolog <- function(x, response = FALSE){
+is.glottolog <- function(x, response = FALSE, glottolog.source = "modified"){
+  ifelse(grepl(glottolog.source, "original"), glottolog <- lingtypology::glottolog.original, glottolog <- lingtypology::glottolog.modified)
   y <- tolower(x)
 # check whether there are linguoids in database ---------------------------
-  result <- y %in% tolower(lingtypology::glottolog$languoid)
+  result <- y %in% tolower(glottolog$languoid)
   if(response == TRUE){
     sapply(x[!result], function(z){
 
 # computes pairwise string Levenshtein distance ---------------------------
       cand <- stringdist::stringdist(tolower(z),
-                                     tolower(lingtypology::glottolog$languoid),
+                                     tolower(glottolog$languoid),
                                      method = "lv")
 
 # make a string with all candidates ---------------------------------------
-      candidate <- paste(lingtypology::glottolog[cand == cand[which.min(cand)],]$languoid,
+      candidate <- paste(glottolog[cand == cand[which.min(cand)],]$languoid,
                          collapse = ", ")
 
 # make a warning message --------------------------------------------------
@@ -38,6 +41,6 @@ is.glottolog <- function(x, response = FALSE){
                     z,
                     " is absent in our database. Did you mean ",
                     candidate, "?",
-                    sep = ""))})}
+                    sep = ""), call. = F)})}
   return(result)
 }

@@ -4,7 +4,7 @@ author: "George Moroz"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{`lingtypology`: easy mapping for Lingustic Typology}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -15,16 +15,17 @@ The `lingtypology` package connects R with the [Glottolog database (v. 2.7)](htt
 I would like to thank Natalya Tyshkevich and Samira Verhees for reading and correcting this vignette.
 
 ## 1. Installation
-Get the stable version from CRAN:
+Since `lingtypology` is an R package, you should install [R](https://www.r-project.org/) on your PC if you haven't already done so. To install `lingtypology` package, run the following command at your R IDE, so you get the stable version from CRAN:
 ```{r, eval=FALSE}
 install.packages("lingtypology")
 ```
 
-… or get the development version from GitHub:
+You can also get the development version from GitHub:
 ```{r, eval= F}
 install.packages("devtools")
 devtools::install_github("agricolamz/lingtypology", dependencies = TRUE)
 ```
+
 Load package:
 ```{r}
 library(lingtypology)
@@ -48,10 +49,10 @@ Some of them help to define a vector of languoids.
 * **lang.aff()** — get languoid by affiliation
 * **lang.iso()** — get languoid by ISO 639-3 code
 
-The most important functionality of ' lingtypology' is the ability to create interactive maps based on features and sets of languoids (see the [the next section](https://github.com/agricolamz/lingtypology/wiki/2.-Creating-maps))
+The most important functionality of `lingtypology` is the ability to create interactive maps based on features and sets of languoids (see the [the next section](https://github.com/agricolamz/lingtypology/wiki/2.-Creating-maps))
 * **map.feature()**
 
-[Glottolog database (v. 2.7)](http://glottolog.org/) provides 'lingtypology' with  languoid names, ISO codes, genealogical affiliation, macro area, countries and coordinates.
+[Glottolog database (v. 2.7)](http://glottolog.org/) provides `lingtypology` with  languoid names, ISO codes, genealogical affiliation, macro area, countries and coordinates.
 
 ### 2.2 Using base functions
 All functions introduced in the previous section are regular functions, so they can take the following objects as input:
@@ -92,22 +93,43 @@ aff.lang("Adyge")
 ```
 
 ### 2.4 Changes in the glottolog database
-Unfortunately, the [Glottolog database (v. 2.7)](http://glottolog.org/) is not perfect, so some changes had to be made:
+Unfortunately, the [Glottolog database (v. 2.7)](http://glottolog.org/) is not perfect for all my tasks, so I changed it a little bit:
 
 * Added some Dargwa languages: Chirag, Cudaxar, Itsari, Kajtak, Kubachi, Tanti, Mehweb. Dargwa is still present in the database as an individual languoid, so one can use Dargwa or any Dargwa language listed above. (07.09.2016)
 * Tabassaran is renamed Tabasaran (07.09.2016)
 * Added coordinates to Silesian and Slavomolisano (11.09.2016)
 * North Azerbaijani is renamed Azerbaijani. Added some Dargwa languages: Amuzgi-Shiri, Gapshima, North-Dargwa, Verhnevurkunskij. Added some Avar dialects: Avar (Andalal), Avar (Antsukh), Avar (Batlukh), Avar (Gid), Avar (Karah), Avar (Karata), Avar (Zakatal)  (11.12.2016)
 * Sauk (Trans New Guinea) is renamed Ma Manda. (27.12.2016)
+* Ache is renamed Ache (Sino Tibetian) and Ache (Tupian); Bari is renamed Bari (Chibchan) and Bari (Nilotic); Bugan is renamed Bugan and Bugan (Spurious); Calo is renamed Calo and Calo (Spurious); Chimakum is renamed Chimakum and Chimakum (Spurious); Garawa is renamed Garawa and Garawa (Spurious); Hamba is renamed Hamba (Atlantic-Congo) and Hamba (Unclassifiable); Hoti is renamed Hoti (Jodi-Saliban) and Hoti (Austronesian); Karipuna is renamed Karipuna (Pano-Tacanan) and Karipuna (Tupian); Kula is renamed Kula (Austronesian) and Kula (Timor-Alor-Pantar); Laru is renamed Laru (Atlantic-Congo) and Laru (Heiban); Maring is renamed Maring (Nuclear Trans New Guinea) and Maring (Sino-Tibetan); Mayo is renamed Mayo (Uto-Aztecan) and Mayo (Pano-Tacanan); Nabi is renamed Nabi (Austronesian) and Nabi (Nuclear Torricelli); Natugu is renamed Natugu and Natugu (Spurious); Naxi is renamed Naxi and Naxi (Spurious); Ngen is renamed Ngen (Mande) and Ngen (Austronesian); Purum is renamed Purum and Purum (Spurious); Saliba is renamed Saliba (Austronesian) and Saliba (Jodi-Saliban); Southern Betsimisaraka Malagasy is renamed Southern Betsimisaraka Malagasy and Southern Betsimisaraka Malagasy (Spurious); Surigaonon is renamed Surigaonon and Surigaonon (Spurious); Tai Pao is renamed Tai Pao and Tai Pao (Spurious); Tunen is renamed Tunen and Tunen (Spurious); Wara is renamed Wara (Atlantic-Congo) and Wara (Morehead-Wasur); Yendang is renamed Yendang and Yendang (Spurious) (22.01.2017)
+* 360+ longitude conversion made for Austral, Central Siberian Yupik, East Futuna, Hawaiian, Lauan, Mangarevam Naukan Yupik, Niuafo'ou, Niuatoputapu, Niuean, North Marquesan, Old Rapa, Penrhyn, Pitcairn-Norfolk, Pukapuka, Rakahanga-Manihiki, Rapanui, Rarotongan, Samoan, Sirenik Yupik, South Marquesan, Tahitian, Tokelau, Tonga (Tonga Islands), Tuamotuan, Wallisian
+
+After [Robert Forkel's issue](https://github.com/agricolamz/lingtypology/issues/1) I decided to add an argument `glottolog.source`, so that everybody have an access to "original" and "modified" (by default) glottolog versions:
+```{r}
+is.glottolog(c("Tabasaran", "Tabassaran"), glottolog.source = "original")
+```
+```{r}
+is.glottolog(c("Tabasaran", "Tabassaran"), glottolog.source = "modified")
+```
+
+It is common practice in R to reduce both function arguments and its values, so it can also be done with the following lingtypology functions.
+```{r}
+is.glottolog(c("Tabasaran", "Tabassaran"), g = "o")
+```
+```{r}
+is.glottolog(c("Tabasaran", "Tabassaran"), g = "m")
+```
+
 
 ## 3. Map features with `map.feature`
 ### 3.1 Base map
 The most important part of the `lingtypology` package is the function `map.feature`. This function allows a user to produce maps similar to known projects within [the Cross-Linguistic Linked Data philosophy](http://clld.org/), such as [WALS](http://wals.info/) and [Glottolog](http://glottolog.org/):
-```{r}
+```{r, fig.width=6.2}
 map.feature(c("Adyghe", "Kabardian", "Polish", "Russian", "Bulgarian"))
 ```
 
 As shown in the picture above, this function generates an interactive Leaflet map with a control box that allows users to toggle the visibility of any group of points on the map. All specific points on the map have a pop-up box that appears when markers are clicked (more about editing pop-up boxes see [below](https://github.com/agricolamz/lingtypology/wiki/Map-my-features-with-map.feature()#set-pop-ups)). By default, they contain languoid names linked to the glottolog site.
+
+If you are new to R, please find some information about how to import data to R. It is simple to make a .csv, .ods or .xls containing lists of languages and features and read it from R (.csv is an easiest way).
 
 ### 3.2 Set features
 The goal of this package is to allow typologists to map language types. A list of languoids and correspondent features can be stored in a `data.frame` as follows:
@@ -117,37 +139,42 @@ df <- data.frame(language = c("Adyghe", "Kabardian", "Polish", "Russian", "Bulga
 df
 ```
 Now we can draw a map:
-```{r}
+```{r, fig.width=6.2}
 map.feature(languages = df$language, features = df$features)
 ```
 
+Since correspondence between color palette and maped features is chosen randomly by default, it is better to use the function `set.seed` to get reproducible map (or choose colors by yourself, see section 3.5):
+```{r, fig.width=6.2}
+set.seed(42)
+map.feature(languages = df$language, features = df$features)
+```
+
+
 Like in most R functions, it is not necessary to name all arguments, so the same result can be obtained by:
-```{r}
+```{r, fig.width=6.2}
+set.seed(42)
 map.feature(df$language, df$features)
 ```
 As shown in the picture above, all points are grouped by feature, colored and counted. As before, a pop-up box appears when markers are clicked. A control feature allows users to toggle the visibility of points grouped by feature.
 
-There is a `title` argument for adding a title to the legend:
-```{r}
-map.feature(df$language, df$features, title = "morphological type")
-```
-
 ### 3.3 Set pop-up boxes
-Sometimes it is a good idea to add some additional information to pop-up boxes, e.g. language affiliation,  references or even examples. In order to do so, first of all we need to create an extra vector of strings in our dataframe:
-```{r}
+Sometimes it is a good idea to add some additional information (e.g. language affiliation,  references or even examples) to pop-up boxes that appear, when points are clicked. In order to do so, first of all we need to create an extra vector of strings in our dataframe:
+```{r, fig.width=6.2}
 df$popup <- aff.lang(df$language)
 ```
-The function `aff.lang()`  creates a vector of genealogical affiliations that can be easily mapped: 
-```{r}
+The function `aff.lang()`  creates a vector of genealogical affiliations that can be easily mapped:
+```{r, fig.width=6.2}
+set.seed(42)
 map.feature(languages = df$language, features = df$features, popup = df$popup)
 ```
 
 Like before, it is not necessary to name all arguments, so the same result can be obtained by this:
-```{r}
+```{r, fig.width=6.2}
+set.seed(42)
 map.feature(df$language, df$features, df$popup)
 ```
 Pop-up strings can contain HTML tags, so it is easy to insert a link, a couple of lines or a table. Here is how pop-up boxes can demonstrate language examples:
-```{r}
+```{r, fig.width=6.2}
 # change a df$popup vector
 df$popup <- c ("sɐ s-ɐ-k'ʷɐ<br> 1sg 1sg.abs-dyn-go<br>'I go'",
                "sɐ s-o-k'ʷɐ<br> 1sg 1sg.abs-dyn-go<br>'I go'",
@@ -155,12 +182,14 @@ df$popup <- c ("sɐ s-ɐ-k'ʷɐ<br> 1sg 1sg.abs-dyn-go<br>'I go'",
                "ya id-u<br> 1sg go-1sg.npst <br> 'I go'",
                "id-a<br> go-1sg.prs<br> 'I go'")
 # create a map
+set.seed(42)
 map.feature(df$language, df$features, df$popup)
 ```
 
 ### 3.4 Set coordinates
 Users can set their own coordinates using the arguments `latitude` and `longitude`. I will illustrate this with the dataset `circassian` built into the `lingtypology` package. This dataset comes from fieldwork collected during several expeditions in the period 2011-2016 and contains a list of Circassian villages:
-```{r}
+```{r, fig.width=6.2}
+set.seed(42)
 map.feature(languages = circassian$language,
             features = circassian$languoid,
             popup = circassian$village,
@@ -169,34 +198,29 @@ map.feature(languages = circassian$language,
 ```
 
 ### 3.5 Set colors
-By default colors are chosen randomly, but user can set their own colors using argument `color`:
-```{r}
+By default color palette is created by `rainbow()` function, but user can set their own colors using argument `color`:
+```{r, fig.width=6.2}
 df <- data.frame(language = c("Adyghe", "Kabardian", "Polish", "Russian", "Bulgarian"),
                  features = c("polysynthetic", "polysynthetic", "fusional", "fusional", "fusional"))
-map.feature(languages = df$language, features = df$features, color = c("yellowgreen", "navy"))
+map.feature(languages = df$language,
+            features = df$features,
+            color = c("yellowgreen", "navy"))
 ```
 
-Since colors are chosen randomly by default, it is better to use the function `set.seed` to get reproducible color 
-palette:
-```{r}
-df <- data.frame(language = c("Adyghe", "Kabardian", "Polish", "Russian", "Bulgarian"),
-                 features = c("polysynthetic", "polysynthetic", "fusional", "fusional", "fusional"))
-set.seed(48)
-map.feature(languages = df$language, features = df$features)
+### 3.6 Set control box
+Package can generate the automatically generated control box that allows users to toggle the visibility of points and feature. To anable it there is an argument  `control` in the `map.feature` function:
+
+```{r, fig.width=6.2}
+set.seed(42)
+map.feature(languages = df$language,
+            features = df$features,
+            control = TRUE)
 ```
-
-### 3.6 Set control box and legend
-The automatically generated control box that allows users to toggle the visibility of points and features can become inconvenient when there is a large amount of features on the map. To disable it there is an argument  `control` in the `map.feature` function:
-
-```{r}
-map.feature(lang.aff("Sign Language"), control = FALSE)
-```
-
-To disable the automatically generated legend there is an argument  `legend` in the `map.feature` function that can be set to `FALSE`.
 
 ### 3.7 Set an additional set of features using strokes
 The `map.feature` function has an additional argument `stroke.features`. Using this argument it becomes possible to show two independent sets of features on one map. By default strokes are colored in grey (so for two levels it will be black and white, for three --- black, grey, white end so on), but users can set their own colors using the argument `stroke.color`:
-```{r}
+```{r, fig.width=6.2}
+set.seed(42)
 map.feature(circassian$language,
             features = circassian$languoid,
             stroke.features = circassian$language,
@@ -205,27 +229,24 @@ map.feature(circassian$language,
 ```
 
 It is important to note that `stroke.features` can work with `NA` values. The function won't plot anything if there is an `NA` value. Let's set a language value to `NA` in all Baksan villages from the `circassian` dataset
-```{r, message= F}
-library(dplyr)
+```{r, message= F, fig.width=6.2}
 # create newfeature variable
-newfeature <- circassian
+newfeature <- circassian[,c(5,6)]
 # set language feature of the Baksan villages to NA and reduce newfeature from dataframe to vector
-newfeature %>% 
-  mutate(language = replace(language, languoid == "Baksan", NA)) %>% 
-  select(language) %>% 
-  unlist() ->
-  newfeature
+newfeature <-  replace(newfeature$language, newfeature$languoid == "Baksan", NA)
 # create a map
+set.seed(42)
 map.feature(circassian$language,
-            features = circassian$languoid, 
+            features = circassian$languoid,
             latitude = circassian$latitude,
             longitude = circassian$longitude,
             stroke.features = newfeature)
 ```
 
-### 3.8 Set radius and opacity
+### 3.8 Set radii and an opacity feature
 All markers have their own radius and opacity, so it can be set by users. Just use arguments `radius`, `stroke.radius`, `opacity` and `stroke.opacity`:
-```{r}
+```{r, fig.width=6.2}
+set.seed(42)
 map.feature(circassian$language,
             features = circassian$languoid,
             stroke.features = circassian$language,
@@ -233,6 +254,7 @@ map.feature(circassian$language,
             longitude = circassian$longitude,
             radius = 7, stroke.radius = 13)
 
+set.seed(42)
 map.feature(circassian$language,
             features = circassian$languoid,
             stroke.features = circassian$language,
@@ -241,13 +263,128 @@ map.feature(circassian$language,
             opacity = 0.7, stroke.opacity = 0.6)
 ```
 
-### 3.9 Set layouts and other leaflet features
-Since the `lingtypology` package is based on the [`leaflet` package](https://rstudio.github.io/leaflet/), it is possible to add some map features from that package using the magrittr pipe operator (`%>%`). For example many popular base-maps can be added using the `addProviderTiles()` function from the [`leaflet` package](https://rstudio.github.io/leaflet/) ([here](https://leaflet-extras.github.io/leaflet-providers/preview/index.html) is the complete set of base-maps).
-```{r}
-library(leaflet) # for correct work of %>% operator
+### 3.9 Customizing legends
+By default legend appear in the left bottom corner. If there are stroke features, two legends are generated. There are additional arguments that control appearence and title of the legends.
+```{r, fig.width=6.2}
+set.seed(42)
+map.feature(circassian$language,
+            features = circassian$languoid,
+            stroke.features = circassian$language,
+            latitude = circassian$latitude,
+            longitude = circassian$longitude,
+            legend = FALSE, stroke.legend = TRUE)
+
+set.seed(42)
+map.feature(circassian$language,
+            features = circassian$languoid,
+            stroke.features = circassian$language,
+            latitude = circassian$latitude,
+            longitude = circassian$longitude,
+            title = "Circassian dialects", stroke.title = "Languages")
+```
+
+### 3.10 Set layouts
+It is possible to use different tiles on the same map  using `tile` argument. For more tiles see [here](https://leaflet-extras.github.io/leaflet-providers/preview/index.html).
+```{r, fig.width=6.2}
 df <- data.frame(lang = c("Adyghe", "Kabardian", "Polish", "Russian", "Bulgarian"),
    feature = c("polysynthetic", "polysynthetic", "fusion", "fusion", "fusion"),
    popup = c("Adyghe", "Adyghe", "Slavic", "Slavic", "Slavic"))
-map.feature(df$lang, df$feature, df$popup) %>% 
-addProviderTiles("Stamen.Toner")
+set.seed(42)
+map.feature(df$lang, df$feature, df$popup,
+            tile = "Thunderforest.OpenCycleMap")
 ```
+
+It is possible to use different map tiles at the same map. Just add a vector with tiles.
+```{r, fig.width=6.2}
+df <- data.frame(lang = c("Adyghe", "Kabardian", "Polish", "Russian", "Bulgarian"),
+   feature = c("polysynthetic", "polysynthetic", "fusion", "fusion", "fusion"),
+   popup = c("Adyghe", "Adyghe", "Slavic", "Slavic", "Slavic"))
+set.seed(42)
+map.feature(df$lang, df$feature, df$popup,
+            tile = c("OpenStreetMap.BlackAndWhite", "Thunderforest.OpenCycleMap"))
+```
+
+It is possible to name tiles using `tile.name` argument.
+```{r, fig.width=6.2}
+df <- data.frame(lang = c("Adyghe", "Kabardian", "Polish", "Russian", "Bulgarian"),
+   feature = c("polysynthetic", "polysynthetic", "fusion", "fusion", "fusion"),
+   popup = c("Adyghe", "Adyghe", "Slavic", "Slavic", "Slavic"))
+set.seed(42)
+map.feature(df$lang, df$feature, df$popup,
+            tile = c("OpenStreetMap.BlackAndWhite", "Thunderforest.OpenCycleMap"),
+            tile.name = c("b & w", "colored"))
+```
+
+It is possible to combine tiles' control box with the features' control box.
+```{r, fig.width=6.2}
+df <- data.frame(lang = c("Adyghe", "Kabardian", "Polish", "Russian", "Bulgarian"),
+   feature = c("polysynthetic", "polysynthetic", "fusion", "fusion", "fusion"),
+   popup = c("Adyghe", "Adyghe", "Slavic", "Slavic", "Slavic"))
+set.seed(42)
+map.feature(df$lang, df$feature, df$popup,
+            tile = c("OpenStreetMap.BlackAndWhite", "Thunderforest.OpenCycleMap"),
+            control = TRUE)
+```
+
+### 3.11 Add a picture to a map
+Argument images.url allows users to add their own pictures to a map, using url. In this part I will use two histograms on the most numerous nationalities in Moscow and St. Petersburg, based on data from the last Russian Census:
+
+* [Moscow](http://web-corpora.net/~agricolamz/maps/lingtypology/Moscow.png)
+* [St. Petersburg](http://web-corpora.net/~agricolamz/maps/lingtypology/St.%20Petersburg.png)
+
+Lets create a dataframe
+```{r, fig.width=6.2}
+df <- data.frame(lang = c("Russian", "Russian"),
+                 lat  = c(55.75, 59.95),
+                 long = c(37.616667, 30.3),
+# I use here URL shortener by Google
+                 urls = c("https://goo.gl/5OUv1E",
+                          "https://goo.gl/UWmvDw"))
+map.feature(languages = df$lang,
+            latitude = df$lat,
+            longitude = df$long,
+            image.url = df$urls)
+```
+
+Users can change the size of the pictures.
+```{r, fig.width=6.2}
+df <- data.frame(lang = c("Russian", "Russian"),
+                 lat  = c(55.75, 59.95),
+                 long = c(37.616667, 30.3),
+# I use here URL shorter by Google
+                 urls = c("https://goo.gl/5OUv1E",
+                          "https://goo.gl/UWmvDw"))
+map.feature(languages = df$lang,
+            latitude = df$lat,
+            longitude = df$long,
+            image.url = df$urls,
+            image.width = 200,
+            image.height = 200)
+```
+
+It can be moved from the actual point:
+```{r, fig.width=6.2}
+df <- data.frame(lang = c("Russian", "Russian"),
+                 lat  = c(55.75, 59.95),
+                 long = c(37.616667, 30.3),
+# I use here URL shorter by Google
+                 urls = c("https://goo.gl/5OUv1E",
+                          "https://goo.gl/UWmvDw"))
+map.feature(languages = df$lang,
+            latitude = df$lat,
+            longitude = df$long,
+            image.url = df$urls,
+            image.width = 150,
+            image.height = 150,
+            image.X.shift = 10,
+            image.Y.shift = 0)
+```
+
+Using this argument users can plot their own markers, any chart connected to a point or even their own legend. It is important to know that by using transparent .png files, the user can plot additional legend text on the map. 
+
+## 4. Citing `lingtyplogy`
+It is realy important to cite R and R packages when you use them. For this purpose use `citation` R function:
+```{r}
+citation("lingtypology")
+```
+
