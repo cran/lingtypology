@@ -1,4 +1,13 @@
-1.0.1
+lingtypology 1.0.2 (23.02.2017)
+  - ROpenSci wishes met
+  - coloring bug caused by leaflet new release fixed
+  - added position arguments to every legend
+  - added arguments for working with scale bar
+  - added arguments for working with minimap
+  - added arguments for working with labels
+  - all changes are illustrated in package vigniette
+
+lingtypology 1.0.1 (29.01.2017)
   - fixed all warnings in CRAN checks
   - fixed the bug with two feature set mapping
   - added map.feature arguments for legends (stroke.title, stroke.legend)
@@ -13,5 +22,5 @@
   - fixed makelink function
   - some coordinates and language names corrected and stored in glottolog.modified
 
-1.0.0
+lingtypology 1.0.0 (29.12.2016)
   - initial release

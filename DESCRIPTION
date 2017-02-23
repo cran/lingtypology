@@ -1,7 +1,7 @@
 Package: lingtypology
 Type: Package
 Title: Linguistic Typology and Mapping
-Version: 1.0.1
+Version: 1.0.2
 Depends: R (>= 2.10)
 Imports: leaflet, stats, stringdist, magrittr, grDevices, rowr
 Author: George Moroz
@@ -10,11 +10,12 @@ Description: Provides R with the Glottolog database <http://glottolog.org> and s
 License: GPL (>= 2)
 URL: https://CRAN.R-project.org/package=lingtypology,
         https://github.com/agricolamz/lingtypology/
+BugReports: https://github.com/agricolamz/lingtypology/issues
 LazyData: TRUE
 RoxygenNote: 5.0.1
-Suggests: knitr, rmarkdown
+Suggests: knitr, rmarkdown, testthat, covr
 VignetteBuilder: knitr
 NeedsCompilation: no
-Packaged: 2017-01-29 14:00:48 UTC; agricolamz
+Packaged: 2017-02-23 16:41:29 UTC; agricolamz
 Repository: CRAN
-Date/Publication: 2017-01-29 16:03:00
+Date/Publication: 2017-02-23 17:58:05

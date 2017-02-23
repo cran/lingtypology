@@ -4,15 +4,20 @@
 \alias{map.feature}
 \title{Create a map}
 \usage{
-map.feature(languages, features = "none", popup = "",
+map.feature(languages, features = "none", popup = "", label = "",
+  label.hide = FALSE, label.fsize = 14, label.position = "right",
   stroke.features = NULL, latitude = NULL, longitude = NULL,
   color = NULL, stroke.color = NULL, image.url = NULL,
   image.width = 100, image.height = 100, image.X.shift = 0,
   image.Y.shift = 0, title = NULL, stroke.title = NULL, control = FALSE,
-  legend = TRUE, legend.opacity = 1, stroke.legend = TRUE,
-  stroke.legend.opacity = 1, radius = 5, stroke.radius = 9.5,
-  opacity = 1, stroke.opacity = 1, tile = "OpenStreetMap.Mapnik",
-  tile.name = NULL, glottolog.source = "modified")
+  legend = TRUE, legend.opacity = 1, legend.position = "topright",
+  stroke.legend = TRUE, stroke.legend.opacity = 1,
+  stroke.legend.position = "bottomleft", radius = 5, stroke.radius = 9.5,
+  opacity = 1, stroke.opacity = 1, scale.bar = TRUE,
+  scale.bar.position = "bottomleft", minimap = FALSE,
+  minimap.position = "bottomright", minimap.width = 150,
+  minimap.height = 150, tile = "OpenStreetMap.Mapnik", tile.name = NULL,
+  glottolog.source = "modified")
 }
 \arguments{
 \item{languages}{character vector of linguoids (can be written in lower case)}
@@ -20,6 +25,14 @@ map.feature(languages, features = "none", popup = "",
 \item{features}{character vector of features}
 
 \item{popup}{character vector of strings that will appear in pop-up window}
+
+\item{label}{character vector of strings that will appear near points}
+
+\item{label.hide}{logical. If FALSE, labels are displayed allways. If TRUE, labels are displayed on mouse over. By default is TRUE.}
+
+\item{label.fsize}{numeric value of the label font size. By default is 14.}
+
+\item{label.position}{the position of labels: "left", "right", "top", "bottom"}
 
 \item{stroke.features}{additional independent stroke features}
 
@@ -51,9 +64,13 @@ map.feature(languages, features = "none", popup = "",
 
 \item{legend.opacity}{a numeric vector of legend opacity.}
 
+\item{legend.position}{the position of the legend: "topright", "bottomright", "bottomleft","topleft"}
+
 \item{stroke.legend}{logical. If TRUE, function show stroke.legend. By default is FALSE.}
 
 \item{stroke.legend.opacity}{a numeric vector of stroke.legend opacity.}
+
+\item{stroke.legend.position}{the position of the stroke.legend: "topright", "bottomright", "bottomleft","topleft"}
 
 \item{radius}{a numeric vector of radii for the circles.}
 
@@ -62,6 +79,18 @@ map.feature(languages, features = "none", popup = "",
 \item{opacity}{a numeric vector of marker opacity.}
 
 \item{stroke.opacity}{a numeric vector of stroke opacity.}
+
+\item{scale.bar}{logical. If TRUE, function show scale-bar. By default is TRUE.}
+
+\item{scale.bar.position}{the position of the scale-bar: "topright", "bottomright", "bottomleft","topleft"}
+
+\item{minimap}{= FALSE,}
+
+\item{minimap.position}{the position of the minimap: "topright", "bottomright", "bottomleft","topleft"}
+
+\item{minimap.width}{The width of the minimap in pixels.}
+
+\item{minimap.height}{The height of the minimap in pixels.}
 
 \item{tile}{a character verctor with a map tiles, popularized by Google Maps. See \href{https://leaflet-extras.github.io/leaflet-providers/preview/index.html}{here} for the complete set.}
 
@@ -96,6 +125,12 @@ df <- data.frame(lang = c("Adyghe", "Kabardian", "Polish", "Russian", "Bulgarian
 feature = c("polysynthetic", "polysynthetic", "fusion", "fusion", "fusion"),
 popup = c("Circassian", "Circassian", "Slavic", "Slavic", "Slavic"))
 map.feature(df$lang, df$feature, df$popup)
+
+## Adding labels
+df <- data.frame(lang = c("Adyghe", "Kabardian", "Polish", "Russian", "Bulgarian"),
+feature = c("polysynthetic", "polysynthetic", "fusion", "fusion", "fusion"),
+popup = c("Circassian", "Circassian", "Slavic", "Slavic", "Slavic"))
+map.feature(df$lang, df$feature, label = df$lang)
 
 ## Adding title
 df <- data.frame(lang = c("Adyghe", "Kabardian", "Polish", "Russian", "Bulgarian"),
@@ -133,6 +168,12 @@ map.feature(languages = df$lang,
 latitude = df$lat,
 longitude = df$long,
 image.url = df$urls)
+
+## Add a minimap to plot
+map.feature(c("Adyghe", "Russian"), minimap = TRUE)
+
+## Remove scale bar
+map.feature(c("Adyghe", "Russian"), scale.bar = FALSE)
 
 }
 \author{
