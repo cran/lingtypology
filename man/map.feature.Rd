@@ -17,10 +17,11 @@ map.feature(languages, features = "none", popup = "", label = "",
   scale.bar.position = "bottomleft", minimap = FALSE,
   minimap.position = "bottomright", minimap.width = 150,
   minimap.height = 150, tile = "OpenStreetMap.Mapnik", tile.name = NULL,
+  zoom.control = FALSE, map.orientation = "Pacific",
   glottolog.source = "modified")
 }
 \arguments{
-\item{languages}{character vector of linguoids (can be written in lower case)}
+\item{languages}{character vector of languages (can be written in lower case)}
 
 \item{features}{character vector of features}
 
@@ -40,7 +41,7 @@ map.feature(languages, features = "none", popup = "", label = "",
 
 \item{longitude}{numeric vector of longitudes}
 
-\item{color}{vector of colors}
+\item{color}{vector of colors or palette. The color argument can be (1) a character vector of RGM or named colors; (2) the name of an RColorBrewer palette; (3) the full name of a viridis palette; (4) a function that receives a single value between 0 and 1 and returns a color. For more examples see \code{\link{colorNumeric}}}
 
 \item{stroke.color}{vector of stroke colors}
 
@@ -80,11 +81,11 @@ map.feature(languages, features = "none", popup = "", label = "",
 
 \item{stroke.opacity}{a numeric vector of stroke opacity.}
 
-\item{scale.bar}{logical. If TRUE, function show scale-bar. By default is TRUE.}
+\item{scale.bar}{logical. If TRUE, function shows scale-bar. By default is TRUE.}
 
 \item{scale.bar.position}{the position of the scale-bar: "topright", "bottomright", "bottomleft","topleft"}
 
-\item{minimap}{= FALSE,}
+\item{minimap}{logical. If TRUE, function shows mini map. By default is FALSE.}
 
 \item{minimap.position}{the position of the minimap: "topright", "bottomright", "bottomleft","topleft"}
 
@@ -96,24 +97,22 @@ map.feature(languages, features = "none", popup = "", label = "",
 
 \item{tile.name}{a character verctor with a user's map tiles' names}
 
+\item{zoom.control}{logical. If TRUE, function shows zoom controls. By default is FALSE.}
+
+\item{map.orientation}{a character verctor with values "Pacific" and "Atlantic". It distinguishes Pacific-centered and Atlantic-centered maps. By default is "Pacific".}
+
 \item{glottolog.source}{A character vector that define which glottolog database is used: "original" or "modified" (by default)}
 }
 \description{
-Map a set of linguoids and color them by feature or two sets of features.
+Map a set of languages and color them by feature or two sets of features.
 }
 \examples{
 map.feature(c("Adyghe", "Russian"))
 
-## All Sign languages
-map.feature(lang.aff("Sign"))
-
 ## Map all Slavic languages
 map.feature(lang.aff(c("Slavic")))
 
-## Add control buttons
-map.feature(c("Adyghe", "Russian"), control = TRUE)
-
-## Color linguoids by feature
+## Color languages by feature
 df <- data.frame(lang = c("Adyghe", "Kabardian", "Polish", "Russian", "Bulgarian"),
 feature = c("polysynthetic", "polysynthetic", "fusion", "fusion", "fusion"))
 map.feature(df$lang, df$feature)
@@ -132,19 +131,11 @@ feature = c("polysynthetic", "polysynthetic", "fusion", "fusion", "fusion"),
 popup = c("Circassian", "Circassian", "Slavic", "Slavic", "Slavic"))
 map.feature(df$lang, df$feature, label = df$lang)
 
-## Adding title
-df <- data.frame(lang = c("Adyghe", "Kabardian", "Polish", "Russian", "Bulgarian"),
-feature = c("polysynthetic", "polysynthetic", "fusion", "fusion", "fusion"),
-popup = c("Circassian", "Circassian", "Slavic", "Slavic", "Slavic"))
-map.feature(df$lang, df$feature, df$popup, title = "type of a language")
-
 ## Add your own coordinates
 map.feature("Adyghe", latitude = 43, longitude = 57)
 
 ## Change map tile
 map.feature("Adyghe", tile = "Thunderforest.OpenCycleMap")
-map.feature("Adyghe", tile = c("OpenStreetMap.BlackAndWhite", "Thunderforest.OpenCycleMap"))
-map.feature("Adyghe", tile = "Thunderforest.OpenCycleMap", tile.name = "colored")
 
 ## Add you own colors
 df <- data.frame(lang = c("Adyghe", "Kabardian", "Polish", "Russian", "Bulgarian"),
@@ -174,6 +165,7 @@ map.feature(c("Adyghe", "Russian"), minimap = TRUE)
 
 ## Remove scale bar
 map.feature(c("Adyghe", "Russian"), scale.bar = FALSE)
+
 
 }
 \author{
