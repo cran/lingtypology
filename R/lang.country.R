@@ -14,10 +14,13 @@
 
 lang.country <- function(x, list = FALSE, glottolog.source = "modified") {
     if(typeof(x) == "list"){x <- unlist(x)}
-    ifelse(grepl(glottolog.source, "original"), glottolog <- lingtypology::glottolog.original,
-        glottolog <- lingtypology::glottolog.modified)
+    ifelse(grepl(glottolog.source, "original"),
+           glottolog <- lingtypology::glottolog.original,
+           glottolog <- lingtypology::glottolog.modified)
     ret <- lapply(x, function(y) {
-      cntr <- lingtypology::countries$common[which(unlist(lingtypology::countries) %in% y) %% nrow(lingtypology::countries)]
+      cntr <- lingtypology::countries$common[
+        which(unlist(lingtypology::countries) %in% y) %%
+          nrow(lingtypology::countries)]
         if (length(cntr) > 0) {
             glottolog[grep(cntr, glottolog$country), ]$language
         } else {

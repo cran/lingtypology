@@ -3,7 +3,7 @@
 
 ## ---- eval= F------------------------------------------------------------
 #  install.packages("devtools")
-#  devtools::install_github("agricolamz/lingtypology")
+#  devtools::install_github("ropensci/lingtypology")
 
 ## ------------------------------------------------------------------------
 library(lingtypology)
@@ -56,7 +56,7 @@ map.feature(c("Adyghe", "Kabardian", "Polish", "Russian", "Bulgarian"))
 #  m <- map.feature(c("Adyghe", "Korean"))
 #  # install.packages("htmlwidgets")
 #  library(htmlwidgets)
-#  saveWidget(m, file="/home/agricolamz/_DATA/OneDrive1/_Work/github/lingtypology/m.html")
+#  saveWidget(m, file="TYPE_FILE_PATH/m.html")
 
 ## ------------------------------------------------------------------------
 df <- data.frame(language = c("Adyghe", "Kabardian", "Polish", "Russian", "Bulgarian"),
@@ -77,9 +77,9 @@ map.feature(df$language, df$features)
 
 ## ---- fig.width=6.2, fig.height=3.4--------------------------------------
 map.feature(ejective_and_n_consonants$language,
-            ejective_and_n_consonants$ejectives)
+            ejective_and_n_consonants$ejectives) # categorical
 map.feature(ejective_and_n_consonants$language,
-            ejective_and_n_consonants$n.cons.lapsyd)
+            ejective_and_n_consonants$n.cons.lapsyd) # numeric
 
 ## ---- fig.width=6.2, fig.height=3.4--------------------------------------
 map.feature(ejective_and_n_consonants$language,
@@ -306,6 +306,68 @@ map.feature(languages = df$lang,
             image.height = 150,
             image.X.shift = 10,
             image.Y.shift = 0)
+
+## ---- fig.width=6.2, fig.height=3.4--------------------------------------
+map.feature(circassian$language,
+            longitude = circassian$longitude,
+            latitude = circassian$latitude,
+            density.estimation = TRUE,
+            color = "darkgreen")
+
+## ---- fig.width=6.2, fig.height=3.4--------------------------------------
+map.feature(circassian$language,
+            features = circassian$language,
+            longitude = circassian$longitude,
+            latitude = circassian$latitude,
+            density.estimation = TRUE,
+            color = c("darkgreen", "blue"))
+
+## ---- fig.width=6.2, fig.height=3.4--------------------------------------
+map.feature(circassian$language,
+            features = circassian$language,
+            longitude = circassian$longitude,
+            latitude = circassian$latitude,
+            density.estimation = "blank",
+            color = c("darkgreen", "blue"))
+
+## ---- fig.width=6.2, fig.height=3.4--------------------------------------
+map.feature(circassian$language,
+            features = circassian$language,
+            longitude = circassian$longitude,
+            latitude = circassian$latitude,
+            density.estimation = "blank",
+            density.estimation.opacity = 0.5,
+            color = c("darkgreen", "blue"))
+
+## ---- fig.width=6.2, fig.height=3.4--------------------------------------
+map.feature(circassian$language,
+            features = circassian$language,
+            longitude = circassian$longitude,
+            latitude = circassian$latitude,
+            density.estimation = T,
+            density.longitude.width = 0.3,
+            density.latitude.width = 0.3, 
+            color = c("darkgreen", "blue"))
+
+## ---- fig.width=6.2, fig.height=3.4--------------------------------------
+map.feature(circassian$language,
+            features = circassian$language,
+            longitude = circassian$longitude,
+            latitude = circassian$latitude,
+            density.estimation = T,
+            density.longitude.width = 0.7,
+            density.latitude.width = 0.7, 
+            color = c("darkgreen", "blue"))
+
+## ---- fig.width=6.2, fig.height=3.4--------------------------------------
+map.feature(circassian$language,
+            features = circassian$language,
+            longitude = circassian$longitude,
+            latitude = circassian$latitude,
+            density.estimation = T,
+            density.longitude.width = 1.3,
+            density.latitude.width = 0.9, 
+            color = c("darkgreen", "blue"))
 
 ## ------------------------------------------------------------------------
 new_data <- read.csv("https://goo.gl/GgscBE")
