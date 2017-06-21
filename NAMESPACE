@@ -2,6 +2,7 @@
 
 export(aff.lang)
 export(area.lang)
+export(autotyp.feature)
 export(country.lang)
 export(gltc.iso)
 export(gltc.lang)
@@ -44,3 +45,4 @@ importFrom(stats,complete.cases)
 importFrom(stats,density)
 importFrom(stats,sd)
 importFrom(stringdist,stringdist)
+importFrom(utils,read.csv)

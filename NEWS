@@ -1,3 +1,8 @@
+lingtypology 1.0.5 (21.06.2017)
+ - coloring bug corrected
+ - add function for downloading AUTOTYP data
+ - density estimation arguments works with independent features
+
 lingtypology 1.0.4 (13.05.2017)
   - glottolog database is improved
   - added warning for languages without coordinates
