@@ -205,7 +205,7 @@ map.feature <- function(languages,
   mapfeat.df <- data.frame(languages, features,
                            popup = popup)
   if(sum(label == "") != length(label)){
-    mapfeat.df$label <- label
+    mapfeat.df$label <- as.character(label)
   }
 
   if(!is.null(density.estimation)){
@@ -480,7 +480,8 @@ leaflet::addCircleMarkers(lng=mapfeat.stroke$long,
     m <- m %>% leaflet::addMiniMap(
       position = minimap.position,
       width = minimap.width,
-      height = minimap.height
+      height = minimap.height,
+      toggleDisplay = TRUE
     )
   }
   m

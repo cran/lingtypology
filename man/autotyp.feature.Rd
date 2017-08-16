@@ -9,15 +9,18 @@ autotyp.feature(features, na.rm = TRUE, glottolog.source = "modified")
 \arguments{
 \item{features}{A character vector that define with a feature names from AUTOTYP.}
 
-\item{na.rm}{Logical. If TRUE function removes all languages not available in lingtypology. By default is TRUE.}
+\item{na.rm}{Logical. If TRUE function removes all languages not available in lingtypology database. By default is TRUE.}
 
 \item{glottolog.source}{A character vector that define which glottolog database is used: 'original' or 'modified' (by default)}
 }
 \description{
-This function downloads data from AUTOTYP. You need the internet connection.
+This function downloads data from AUTOTYP (https://github.com/autotyp/autotyp-data#the-autotyp-database) and changes language names to the names from lingtypology database. You need the internet connection.
 }
 \examples{
-autotyp.feature(c('Gender', 'Numeral classifiers'))
+# autotyp.feature(c('Gender', 'Numeral classifiers'))
+}
+\seealso{
+\code{\link{afbo.feature}}, \code{\link{phoible.feature}}, \code{\link{sails.feature}}, \code{\link{wals.feature}}
 }
 \author{
 George Moroz <agricolamz@gmail.com>
