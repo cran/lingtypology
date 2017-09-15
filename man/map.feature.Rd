@@ -22,8 +22,9 @@ map.feature(languages, features = "", popup = "", label = "",
   scale.bar.position = "bottomleft", minimap = FALSE,
   minimap.position = "bottomright", minimap.width = 150,
   minimap.height = 150, tile = "OpenStreetMap.Mapnik", tile.name = NULL,
-  zoom.control = FALSE, map.orientation = "Pacific",
-  glottolog.source = "modified")
+  zoom.control = FALSE, zoom.level = NULL, rectangle.lng = NULL,
+  rectangle.lat = NULL, rectangle.color = "black",
+  map.orientation = "Pacific", glottolog.source = "modified")
 }
 \arguments{
 \item{languages}{character vector of languages (can be written in lower case)}
@@ -80,9 +81,9 @@ map.feature(languages, features = "", popup = "", label = "",
 
 \item{image.Y.shift}{numeric vector of image's Y axis shift relative to the latitude-longitude point}
 
-\item{title}{title of a legend}
+\item{title}{title of a legend.}
 
-\item{stroke.title}{title of a stroke-feature legend}
+\item{stroke.title}{title of a stroke-feature legend.}
 
 \item{control}{logical. If TRUE, function show layer control buttons. By default is TRUE.}
 
@@ -120,10 +121,17 @@ map.feature(languages, features = "", popup = "", label = "",
 
 \item{tile}{a character verctor with a map tiles, popularized by Google Maps. See \href{https://leaflet-extras.github.io/leaflet-providers/preview/index.html}{here} for the complete set.}
 
-\item{tile.name}{a character verctor with a user's map tiles' names}
+\item{tile.name}{a character verctor with a user's map tiles' names.}
 
-\item{zoom.control}{logical. If TRUE, function shows zoom controls. By default is FALSE.
-#' @author George Moroz <agricolamz@gmail.com>}
+\item{zoom.control}{logical. If TRUE, function shows zoom controls. By default is FALSE.}
+
+\item{zoom.level}{a numeric value of the zoom level.}
+
+\item{rectangle.lng}{vector of two longitude values for rectangle.}
+
+\item{rectangle.lat}{vector of two latitude values for rectangle.}
+
+\item{rectangle.color}{vector of rectangle border color.}
 
 \item{map.orientation}{a character verctor with values "Pacific" and "Atlantic". It distinguishes Pacific-centered and Atlantic-centered maps. By default is "Pacific".}
 
@@ -142,20 +150,6 @@ map.feature(lang.aff(c("Slavic")))
 df <- data.frame(lang = c("Adyghe", "Kabardian", "Polish", "Russian", "Bulgarian"),
 feature = c("polysynthetic", "polysynthetic", "fusion", "fusion", "fusion"))
 map.feature(df$lang, df$feature)
-## ... or add a control buttons for features
-map.feature(df$lang, df$feature, control = TRUE)
-
-## Adding pop-up
-df <- data.frame(lang = c("Adyghe", "Kabardian", "Polish", "Russian", "Bulgarian"),
-feature = c("polysynthetic", "polysynthetic", "fusion", "fusion", "fusion"),
-popup = c("Circassian", "Circassian", "Slavic", "Slavic", "Slavic"))
-map.feature(df$lang, df$feature, df$popup)
-
-## Adding labels
-df <- data.frame(lang = c("Adyghe", "Kabardian", "Polish", "Russian", "Bulgarian"),
-feature = c("polysynthetic", "polysynthetic", "fusion", "fusion", "fusion"),
-popup = c("Circassian", "Circassian", "Slavic", "Slavic", "Slavic"))
-map.feature(df$lang, df$feature, label = df$lang)
 
 ## Add your own coordinates
 map.feature("Adyghe", latitude = 43, longitude = 57)
@@ -176,15 +170,6 @@ popup = c("Circassian", "Circassian", "Slavic", "Slavic", "Slavic"))
 map.feature(df$lang, df$feature, df$popup,
 stroke.features = df$popup)
 
-## Add a pictures to plot
-df <- data.frame(lang = c("Russian", "Russian"),
-lat  = c(55.75, 59.95),
-long = c(37.616667, 30.3),
-urls = c("https://goo.gl/5OUv1E", "https://goo.gl/UWmvDw"))
-map.feature(languages = df$lang,
-latitude = df$lat,
-longitude = df$long,
-image.url = df$urls)
 
 ## Add a minimap to plot
 map.feature(c("Adyghe", "Russian"), minimap = TRUE)
@@ -193,4 +178,7 @@ map.feature(c("Adyghe", "Russian"), minimap = TRUE)
 map.feature(c("Adyghe", "Russian"), scale.bar = FALSE)
 
 
+}
+\author{
+George Moroz <agricolamz@gmail.com>
 }

@@ -1,6 +1,6 @@
-c07dd017705b988e7e72cfb5d5185dfc *DESCRIPTION
+e0daa0680d59e179a6ba158b98acb043 *DESCRIPTION
 1ae83a6aa225869ed26a198a1267cc0b *NAMESPACE
-4e6389da830305be317dd1e19e2c1c2b *NEWS
+ee93cd745aee417fd7d54dd4276d0b06 *NEWS
 967f9a59c77b3e844e9733bc57624f61 *R/abvd.R
 2a884bc7d8fe3efef589e002bb3c498a *R/abvd.feature.R
 e00fef2f981ce1abe4ba582c29babb1c *R/afbo.feature.R
@@ -25,7 +25,7 @@ a73a3e597b9bd15679b7e4341e9e3384 *R/lang.gltc.R
 dc30011b3f191a77242f39a427a76d85 *R/lang.iso.R
 73e4a7518e15d3a455eb38c3eb9cbbd4 *R/lat.lang.R
 12a5d84c400ef985d1d8aefa8cda1bc9 *R/long.lang.R
-8fc3a7f2aae83cfdbf55a1fe0f9cd8cd *R/map.feature.R
+ecc5f4c9fc87707f81ab0544e8cafb0c *R/map.feature.R
 bf62557dc9a2f1d430deacdefe9533fc *R/phoible.feature.R
 1db9985fb888847171db7be1599a862c *R/polygon.points.R
 7ccac74ff943ba55f6c5b131245e7fb4 *R/sails.feature.R
@@ -43,10 +43,10 @@ fa446f708e032940b3609402e0b6ba10 *data/ejective_and_n_consonants.RData
 277f7cd3df0995d54fe30ea9f1c8710f *data/glottolog.original.RData
 66bafd5517932a96c986ef469b892ef6 *data/wals.RData
 6755ef36413816a663cdc0129f15d0b1 *inst/CITATION
-5e8af2f698b520d5a808747028a80e9c *inst/doc/lingtypology.R
-c9e923aa515f5aa837ef6292830557a4 *inst/doc/lingtypology.Rmd
-91739e54a635fedb980c6a18f7f61f0a *inst/doc/lingtypology.html
-9e50ae2a254da7194e4a9d340315976b *inst/doc/manual/lingtypology.pdf
+f3c93946fd0fa1f04d90d10a5dd49507 *inst/doc/lingtypology.R
+a970c6cefb5d6b75c92279efb8a91b07 *inst/doc/lingtypology.Rmd
+14152dc963b579440bb88c438d8179a1 *inst/doc/lingtypology.html
+34cc99c05fba6a378c78528ba13de3c1 *inst/doc/manual/lingtypology.pdf
 deaffba2db1c22067df3026560734bc0 *man/abvd.Rd
 216a523a4fe305658ace28a77ef6dd81 *man/abvd.feature.Rd
 be112d38c1e7f30fd30690527059c9f9 *man/afbo.feature.Rd
@@ -71,7 +71,7 @@ cfd8e5076312d9c9f7c4f4afdb2f0f42 *man/lang.gltc.Rd
 57abe5ac9f2cf24a534a044e8ce5f72d *man/lang.iso.Rd
 7a1b907cc1f54b6ef7c6f07e0c6c3af0 *man/lat.lang.Rd
 38d50a8e12c25d34278e5fd7a9f88666 *man/long.lang.Rd
-bc636247d9840b13332d056fc64323b2 *man/map.feature.Rd
+b429d793cc596d7fde1a49dd8d9bb832 *man/map.feature.Rd
 c5c1870ab271bb1ebe1105e22ac17f0a *man/phoible.feature.Rd
 da5b05c4fd9706fafeb9d886ecd67d87 *man/polygon.points.Rd
 a5dbd1b87da6e00f336ea60377f166c7 *man/sails.feature.Rd
@@ -101,4 +101,4 @@ ac2c82d441c552091e55b307028e7a7a *tests/testthat/test-long-lang.R
 f98d27bb3b13d7a146169bf87cdd19ac *tests/testthat/test-sails-feature.R
 bca2180a7e8a32d12547f28021a992b7 *tests/testthat/test-url-lang.R
 0d3a43036aebb2d222b62e3b23cfbd11 *tests/testthat/test-wals-feature.R
-c9e923aa515f5aa837ef6292830557a4 *vignettes/lingtypology.Rmd
+a970c6cefb5d6b75c92279efb8a91b07 *vignettes/lingtypology.Rmd

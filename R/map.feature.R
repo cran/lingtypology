@@ -49,11 +49,15 @@
 #' @param stroke.legend.position the position of the stroke.legend: "topright", "bottomright", "bottomleft","topleft"
 #' @param stroke.opacity a numeric vector of stroke opacity.
 #' @param stroke.radius a numeric vector of stroke radii for the circles.
-#' @param stroke.title title of a stroke-feature legend
-#' @param tile.name a character verctor with a user's map tiles' names
-#' @param title title of a legend
+#' @param stroke.title title of a stroke-feature legend.
+#' @param tile.name a character verctor with a user's map tiles' names.
+#' @param title title of a legend.
+#' @param rectangle.lng vector of two longitude values for rectangle.
+#' @param rectangle.lat vector of two latitude values for rectangle.
+#' @param rectangle.color vector of rectangle border color.
 #' @param zoom.control logical. If TRUE, function shows zoom controls. By default is FALSE.
-#' #' @author George Moroz <agricolamz@gmail.com>
+#' @param zoom.level a numeric value of the zoom level.
+#' @author George Moroz <agricolamz@gmail.com>
 #' @examples
 #' map.feature(c("Adyghe", "Russian"))
 #'
@@ -64,20 +68,6 @@
 #' df <- data.frame(lang = c("Adyghe", "Kabardian", "Polish", "Russian", "Bulgarian"),
 #' feature = c("polysynthetic", "polysynthetic", "fusion", "fusion", "fusion"))
 #' map.feature(df$lang, df$feature)
-#' ## ... or add a control buttons for features
-#' map.feature(df$lang, df$feature, control = TRUE)
-#'
-#' ## Adding pop-up
-#' df <- data.frame(lang = c("Adyghe", "Kabardian", "Polish", "Russian", "Bulgarian"),
-#' feature = c("polysynthetic", "polysynthetic", "fusion", "fusion", "fusion"),
-#' popup = c("Circassian", "Circassian", "Slavic", "Slavic", "Slavic"))
-#' map.feature(df$lang, df$feature, df$popup)
-#'
-#' ## Adding labels
-#' df <- data.frame(lang = c("Adyghe", "Kabardian", "Polish", "Russian", "Bulgarian"),
-#' feature = c("polysynthetic", "polysynthetic", "fusion", "fusion", "fusion"),
-#' popup = c("Circassian", "Circassian", "Slavic", "Slavic", "Slavic"))
-#' map.feature(df$lang, df$feature, label = df$lang)
 #'
 #' ## Add your own coordinates
 #' map.feature("Adyghe", latitude = 43, longitude = 57)
@@ -98,15 +88,6 @@
 #' map.feature(df$lang, df$feature, df$popup,
 #' stroke.features = df$popup)
 #'
-#' ## Add a pictures to plot
-#' df <- data.frame(lang = c("Russian", "Russian"),
-#' lat  = c(55.75, 59.95),
-#' long = c(37.616667, 30.3),
-#' urls = c("https://goo.gl/5OUv1E", "https://goo.gl/UWmvDw"))
-#' map.feature(languages = df$lang,
-#' latitude = df$lat,
-#' longitude = df$long,
-#' image.url = df$urls)
 #'
 #' ## Add a minimap to plot
 #' map.feature(c("Adyghe", "Russian"), minimap = TRUE)
@@ -188,6 +169,10 @@ map.feature <- function(languages,
                         tile = "OpenStreetMap.Mapnik",
                         tile.name = NULL,
                         zoom.control = FALSE,
+                        zoom.level = NULL,
+                        rectangle.lng = NULL,
+                        rectangle.lat = NULL,
+                        rectangle.color = "black",
                         map.orientation = "Pacific",
                         glottolog.source = "modified"){
 
@@ -254,9 +239,6 @@ map.feature <- function(languages,
     mapfeat.stroke <- mapfeat.stroke[stats::complete.cases(mapfeat.stroke),]
   }
 
-  # change feature names ----------------------------------------------------
-  # levels(mapfeat.df$features) <- paste(names(table(mapfeat.df$features)), " (", table(mapfeat.df$features), ")", sep = "")
-
   # create a palette ---------------------------------------------------------
   my_colors <- grDevices::colors()[!grepl("ivory|azure|white|gray|grey|black|pink|1", grDevices::colors())]
   if (is.null(color)) {
@@ -271,10 +253,10 @@ map.feature <- function(languages,
         pal <- leaflet::colorNumeric(palette = color,domain=mapfeat.df$features)
       }else {
         if(length(mapfeat.df$features) == length(color)){
-          df <- unique(data.frame(feature = mapfeat.df$features, color))
-          color <- as.character(df[order(df$feature),]$color)
-          }
-        pal <- leaflet::colorFactor(unique(color), domain = mapfeat.df$features)
+           df <- unique(data.frame(feature = mapfeat.df$features, color))
+           color <- as.character(df[order(df$feature),]$color)
+           }
+        pal <- leaflet::colorFactor(color, domain = mapfeat.df$features)
       }
     }
 
@@ -344,6 +326,20 @@ map.feature <- function(languages,
     }, tile[-1], tile.name[-1])
   }
 
+  # map: add rectangle ------------------------------------------------------
+  if (!is.null(rectangle.lng)&!is.null(rectangle.lat)) {
+    m <- m %>% leaflet::addRectangles(
+      lng1= rectangle.lng[1],
+      lat1=rectangle.lat[1],
+      lng2=rectangle.lng[2],
+      lat2=rectangle.lat[2],
+      color = rectangle.color,
+      opacity = 1,
+      weight = 3,
+      fillColor = "transparent"
+    )
+  }
+
   # if there is density estimation ------------------------------------------
   if(!is.null(density.estimation)){
     lapply(seq_along(my_poly), function(x){
@@ -373,7 +369,6 @@ leaflet::addCircleMarkers(lng=mapfeat.stroke$long,
 leaflet::addCircleMarkers(lng=mapfeat.stroke$long,
                     lat=mapfeat.stroke$lat,
                     popup= mapfeat.df$link,
-                    label= mapfeat.df$label,
                     labelOptions = leaflet::labelOptions(noHide = !(label.hide),
                         direction = label.position,
                         textOnly = TRUE,
@@ -482,6 +477,15 @@ leaflet::addCircleMarkers(lng=mapfeat.stroke$long,
       width = minimap.width,
       height = minimap.height,
       toggleDisplay = TRUE
+    )
+  }
+
+  # zoom.level argument -----------------------------------------------------
+  if(!is.null(zoom.level)) {
+    m <- m %>% leaflet::setView(
+      lng = mean(mapfeat.df$long),
+      lat = mean(mapfeat.df$lat),
+      zoom = zoom.level
     )
   }
   m

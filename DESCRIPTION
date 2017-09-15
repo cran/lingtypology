@@ -1,7 +1,7 @@
 Package: lingtypology
 Type: Package
 Title: Linguistic Typology and Mapping
-Version: 1.0.6
+Version: 1.0.7
 Depends: R (>= 3.1.0)
 Imports: leaflet, stats, utils, stringdist, magrittr, grDevices, rowr,
         MASS, sp
@@ -17,6 +17,6 @@ RoxygenNote: 6.0.1
 Suggests: knitr, rmarkdown, testthat, covr
 VignetteBuilder: knitr
 NeedsCompilation: no
-Packaged: 2017-08-16 05:25:07 UTC; agricolamz
+Packaged: 2017-09-15 07:43:30 UTC; agricolamz
 Repository: CRAN
-Date/Publication: 2017-08-16 06:53:50 UTC
+Date/Publication: 2017-09-15 07:56:39 UTC
