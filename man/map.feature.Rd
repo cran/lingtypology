@@ -6,25 +6,27 @@
 \usage{
 map.feature(languages, features = "", popup = "", label = "",
   latitude = NULL, longitude = NULL, label.hide = TRUE,
-  label.fsize = 14, label.position = "right", stroke.features = NULL,
-  density.estimation = NULL, density.estimation.color = NULL,
-  density.estimation.opacity = 0.6, density.points = TRUE,
-  density.longitude.width = NULL, density.latitude.width = NULL,
-  density.legend = TRUE, density.legend.opacity = 1,
-  density.legend.position = "bottomleft", density.title = "",
-  color = NULL, stroke.color = NULL, image.url = NULL,
-  image.width = 100, image.height = 100, image.X.shift = 0,
-  image.Y.shift = 0, title = NULL, stroke.title = NULL, control = FALSE,
-  legend = TRUE, legend.opacity = 1, legend.position = "topright",
-  stroke.legend = TRUE, stroke.legend.opacity = 1,
-  stroke.legend.position = "bottomleft", radius = 5, stroke.radius = 9.5,
-  opacity = 1, stroke.opacity = 1, scale.bar = TRUE,
-  scale.bar.position = "bottomleft", minimap = FALSE,
+  label.fsize = 14, label.position = "right", label.emphasize = list(NULL,
+  "black"), stroke.features = NULL, density.estimation = NULL,
+  density.estimation.color = NULL, density.estimation.opacity = 0.6,
+  density.points = TRUE, density.longitude.width = NULL,
+  density.latitude.width = NULL, density.legend = TRUE,
+  density.legend.opacity = 1, density.legend.position = "bottomleft",
+  density.title = "", density.control = FALSE, color = NULL,
+  stroke.color = NULL, image.url = NULL, image.width = 100,
+  image.height = 100, image.X.shift = 0, image.Y.shift = 0,
+  title = NULL, stroke.title = NULL, control = FALSE, legend = TRUE,
+  legend.opacity = 1, legend.position = "topright", stroke.legend = TRUE,
+  stroke.legend.opacity = 1, stroke.legend.position = "bottomleft",
+  width = 5, stroke.radius = 9.5, opacity = 1, stroke.opacity = 1,
+  scale.bar = TRUE, scale.bar.position = "bottomleft", minimap = FALSE,
   minimap.position = "bottomright", minimap.width = 150,
   minimap.height = 150, tile = "OpenStreetMap.Mapnik", tile.name = NULL,
   zoom.control = FALSE, zoom.level = NULL, rectangle.lng = NULL,
-  rectangle.lat = NULL, rectangle.color = "black",
-  map.orientation = "Pacific", glottolog.source = "modified")
+  rectangle.lat = NULL, minichart = NULL, minichart.data = NULL,
+  minichart.time = NULL, minichart.labels = FALSE,
+  rectangle.color = "black", map.orientation = "Pacific",
+  glottolog.source = "modified")
 }
 \arguments{
 \item{languages}{character vector of languages (can be written in lower case)}
@@ -44,6 +46,8 @@ map.feature(languages, features = "", popup = "", label = "",
 \item{label.fsize}{numeric value of the label font size. By default is 14.}
 
 \item{label.position}{the position of labels: "left", "right", "top", "bottom"}
+
+\item{label.emphasize}{is the list. First argument is a vector of points in datframe that should be emphasized. Second argument is a string with a color for emphasis.}
 
 \item{stroke.features}{additional independent stroke features}
 
@@ -67,6 +71,8 @@ map.feature(languages, features = "", popup = "", label = "",
 
 \item{density.title}{title of a density-feature legend}
 
+\item{density.control}{logical. If TRUE, function show layer control buttons for density plot. By default is FALSE}
+
 \item{color}{vector of colors or palette. The color argument can be (1) a character vector of RGM or named colors; (2) the name of an RColorBrewer palette; (3) the full name of a viridis palette; (4) a function that receives a single value between 0 and 1 and returns a color. For more examples see \code{\link{colorNumeric}}}
 
 \item{stroke.color}{vector of stroke colors}
@@ -85,7 +91,7 @@ map.feature(languages, features = "", popup = "", label = "",
 
 \item{stroke.title}{title of a stroke-feature legend.}
 
-\item{control}{logical. If TRUE, function show layer control buttons. By default is TRUE.}
+\item{control}{logical. If TRUE, function show layer control buttons. By default is FALSE}
 
 \item{legend}{logical. If TRUE, function show legend. By default is FALSE.}
 
@@ -99,7 +105,7 @@ map.feature(languages, features = "", popup = "", label = "",
 
 \item{stroke.legend.position}{the position of the stroke.legend: "topright", "bottomright", "bottomleft","topleft"}
 
-\item{radius}{a numeric vector of radii for the circles.}
+\item{width}{a numeric vector of radius for circles or width for barcharts in minicharts.}
 
 \item{stroke.radius}{a numeric vector of stroke radii for the circles.}
 
@@ -130,6 +136,14 @@ map.feature(languages, features = "", popup = "", label = "",
 \item{rectangle.lng}{vector of two longitude values for rectangle.}
 
 \item{rectangle.lat}{vector of two latitude values for rectangle.}
+
+\item{minichart}{citation from leaflet.minicharts package: "Possible values are "bar" for bar charts, "pie" for pie charts, "polar-area" and "polar-radius"."}
+
+\item{minichart.data}{citation from leaflet.minicharts package: "A numeric matrix with number of rows equal to the number of elements in lng or lat and number of column equal to the number of variables to represent. If parameter time is set, the number of rows must be equal to the length of lng times the number of unique time steps in the data."}
+
+\item{minichart.time}{citation from leaflet.minicharts package: "A vector with length equal to the number of rows in chartdata and containing either numbers representing time indices or dates or datetimes. Each unique value must appear as many times as the others. This parameter can be used when one wants to represent the evolution of some variables on a map."}
+
+\item{minichart.labels}{citation from leaflet.minicharts package: "Should values be displayed above chart elements."}
 
 \item{rectangle.color}{vector of rectangle border color.}
 
@@ -170,13 +184,11 @@ popup = c("Circassian", "Circassian", "Slavic", "Slavic", "Slavic"))
 map.feature(df$lang, df$feature, df$popup,
 stroke.features = df$popup)
 
-
 ## Add a minimap to plot
 map.feature(c("Adyghe", "Russian"), minimap = TRUE)
 
 ## Remove scale bar
 map.feature(c("Adyghe", "Russian"), scale.bar = FALSE)
-
 
 }
 \author{
