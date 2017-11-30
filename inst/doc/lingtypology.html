@@ -12,7 +12,7 @@
 
 <meta name="author" content="George Moroz" />
 
-<meta name="date" content="2017-10-07" />
+<meta name="date" content="2017-11-30" />
 
 <title>lingtypology: easy mapping for Linguistic Typology</title>
 
@@ -70,7 +70,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore"><code>lingtypology</code>: easy mapping for Linguistic Typology</h1>
 <h4 class="author"><em>George Moroz</em></h4>
-<h4 class="date"><em>2017-10-07</em></h4>
+<h4 class="date"><em>2017-11-30</em></h4>
 
 
 
@@ -590,12 +590,12 @@ newfeature &lt;-<span class="st">  </span><span class="kw">replace</span>(newfea
 <div id="afbo" class="section level3">
 <h3>4.4 AfBo</h3>
 <p>The AfBo database has a lot of features that distinguish affix functions, but again you can use a bare function without any arguments to download the whole database. There will be no difference in time, since this function downloads the whole database to your PC. The main destinction is that this database provides recipient and donor languages, so other column names should be used.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df &lt;-<span class="st"> </span><span class="kw">afbo.feature</span>()
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df &lt;-<span class="st"> </span><span class="kw">afbo.feature</span>(<span class="kw">c</span>(<span class="st">&quot;adjectivizer&quot;</span>, <span class="st">&quot;adverbializer&quot;</span>))
 <span class="kw">head</span>(df)
 <span class="kw">map.feature</span>(df$Recipient.name,
             <span class="dt">features =</span> df$adjectivizer,
             <span class="dt">label =</span> df$Recipient.name,
-            <span class="dt">title =</span> <span class="st">&quot;Numeral Classifiers Borrowing&quot;</span>)</code></pre></div>
+            <span class="dt">title =</span> <span class="st">&quot;Borrowed adjectivizer affixes&quot;</span>)</code></pre></div>
 </div>
 <div id="sails" class="section level3">
 <h3>4.5 SAILS</h3>

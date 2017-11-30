@@ -383,12 +383,12 @@ df
 #              title = "Number of Phonemes")
 
 ## ---- eval=FALSE---------------------------------------------------------
-#  df <- afbo.feature()
+#  df <- afbo.feature(c("adjectivizer", "adverbializer"))
 #  head(df)
 #  map.feature(df$Recipient.name,
 #              features = df$adjectivizer,
 #              label = df$Recipient.name,
-#              title = "Numeral Classifiers Borrowing")
+#              title = "Borrowed adjectivizer affixes")
 
 ## ---- eval=FALSE---------------------------------------------------------
 #  df <- sails.feature(features = "ics10")
