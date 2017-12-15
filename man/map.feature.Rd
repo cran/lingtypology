@@ -4,18 +4,19 @@
 \alias{map.feature}
 \title{Create a map}
 \usage{
-map.feature(languages, features = "", popup = "", label = "",
+map.feature(languages, features = "", label = "", popup = "",
   latitude = NULL, longitude = NULL, label.hide = TRUE,
   label.fsize = 14, label.position = "right", label.emphasize = list(NULL,
-  "black"), stroke.features = NULL, density.estimation = NULL,
-  density.estimation.color = NULL, density.estimation.opacity = 0.6,
-  density.points = TRUE, density.longitude.width = NULL,
-  density.latitude.width = NULL, density.legend = TRUE,
-  density.legend.opacity = 1, density.legend.position = "bottomleft",
-  density.title = "", density.control = FALSE, color = NULL,
-  stroke.color = NULL, image.url = NULL, image.width = 100,
-  image.height = 100, image.X.shift = 0, image.Y.shift = 0,
-  title = NULL, stroke.title = NULL, control = FALSE, legend = TRUE,
+  "black"), label.only = FALSE, stroke.features = NULL,
+  density.estimation = NULL, density.estimation.color = NULL,
+  density.estimation.opacity = 0.6, density.points = TRUE,
+  density.longitude.width = NULL, density.latitude.width = NULL,
+  density.legend = TRUE, density.legend.opacity = 1,
+  density.legend.position = "bottomleft", density.title = "",
+  density.control = FALSE, color = NULL, stroke.color = NULL,
+  image.url = NULL, image.width = 100, image.height = 100,
+  image.X.shift = 0, image.Y.shift = 0, title = NULL,
+  stroke.title = NULL, control = FALSE, legend = TRUE,
   legend.opacity = 1, legend.position = "topright", stroke.legend = TRUE,
   stroke.legend.opacity = 1, stroke.legend.position = "bottomleft",
   width = 5, stroke.radius = 9.5, opacity = 1, stroke.opacity = 1,
@@ -24,8 +25,10 @@ map.feature(languages, features = "", popup = "", label = "",
   minimap.height = 150, tile = "OpenStreetMap.Mapnik", tile.name = NULL,
   zoom.control = FALSE, zoom.level = NULL, rectangle.lng = NULL,
   rectangle.lat = NULL, rectangle.color = "black", line.lng = NULL,
-  line.lat = NULL, line.color = "black", minichart = NULL,
-  minichart.data = NULL, minichart.time = NULL, minichart.labels = FALSE,
+  line.lat = NULL, line.type = "standard", line.color = "black",
+  line.opacity = 0.8, line.label = NULL, line.width = 3,
+  graticule = NULL, minichart = NULL, minichart.data = NULL,
+  minichart.time = NULL, minichart.labels = FALSE,
   map.orientation = "Pacific", glottolog.source = "modified")
 }
 \arguments{
@@ -33,9 +36,9 @@ map.feature(languages, features = "", popup = "", label = "",
 
 \item{features}{character vector of features}
 
-\item{popup}{character vector of strings that will appear in pop-up window}
-
 \item{label}{character vector of strings that will appear near points}
+
+\item{popup}{character vector of strings that will appear in pop-up window}
 
 \item{latitude}{numeric vector of latitudes}
 
@@ -48,6 +51,8 @@ map.feature(languages, features = "", popup = "", label = "",
 \item{label.position}{the position of labels: "left", "right", "top", "bottom"}
 
 \item{label.emphasize}{is the list. First argument is a vector of points in datframe that should be emphasized. Second argument is a string with a color for emphasis.}
+
+\item{label.only}{creates labels without markers}
 
 \item{stroke.features}{additional independent stroke features}
 
@@ -93,7 +98,7 @@ map.feature(languages, features = "", popup = "", label = "",
 
 \item{control}{logical. If TRUE, function show layer control buttons. By default is FALSE}
 
-\item{legend}{logical. If TRUE, function show legend. By default is FALSE.}
+\item{legend}{logical. If TRUE, function show legend. By default is TRUE.}
 
 \item{legend.opacity}{a numeric vector of legend opacity.}
 
@@ -139,11 +144,21 @@ map.feature(languages, features = "", popup = "", label = "",
 
 \item{rectangle.color}{vector of rectangle border color.}
 
-\item{line.lng}{vector of two longitude values for line.}
+\item{line.lng}{vector of two (or more) longitude values for line.}
 
-\item{line.lat}{vector of two latitude values for line.}
+\item{line.lat}{vector of two (or more) latitude values for line.}
+
+\item{line.type}{a character string indicating which type of line is to be computed. One of "standard" (default), or "logit". The first one should be combined with the arguments line.lat and line.lng and provide simple lines. Other variant "logit" is the decision boundary of the logistic regression made using longitude and latitude coordinates (works only if feature argument have two levels).}
 
 \item{line.color}{vector of line color.}
+
+\item{line.opacity}{a numeric vector of line opacity.}
+
+\item{line.label}{character vector that will appear near the line.}
+
+\item{line.width}{a numeric vector of line width.}
+
+\item{graticule}{a numeric vector for graticule spacing in map units between horizontal and vertical lines.}
 
 \item{minichart}{citation from leaflet.minicharts package: "Possible values are "bar" for bar charts, "pie" for pie charts, "polar-area" and "polar-radius"."}
 
