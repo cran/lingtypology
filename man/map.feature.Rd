@@ -7,20 +7,24 @@
 map.feature(languages, features = "", label = "", popup = "",
   latitude = NULL, longitude = NULL, label.hide = TRUE,
   label.fsize = 14, label.position = "right", label.emphasize = list(NULL,
-  "black"), shape = NULL, shape.size = 20, shape.color = "black",
-  stroke.features = NULL, density.estimation = NULL,
-  density.estimation.color = NULL, density.estimation.opacity = 0.6,
-  density.points = TRUE, density.longitude.width = NULL,
-  density.latitude.width = NULL, density.legend = TRUE,
-  density.legend.opacity = 1, density.legend.position = "bottomleft",
-  density.title = "", density.control = FALSE, color = NULL,
-  stroke.color = NULL, image.url = NULL, image.width = 100,
-  image.height = 100, image.X.shift = 0, image.Y.shift = 0,
-  title = NULL, stroke.title = NULL, control = FALSE, legend = TRUE,
-  legend.opacity = 1, legend.position = "topright", stroke.legend = TRUE,
-  stroke.legend.opacity = 1, stroke.legend.position = "bottomleft",
-  width = 5, stroke.radius = 9.5, opacity = 1, stroke.opacity = 1,
-  scale.bar = TRUE, scale.bar.position = "bottomleft", minimap = FALSE,
+  "black"), shape = NULL, shape.size = 20, pipe.data = NULL,
+  shape.color = "black", stroke.features = NULL,
+  density.estimation = NULL, density.estimation.color = NULL,
+  density.estimation.opacity = 0.6, density.points = TRUE,
+  density.longitude.width = NULL, density.latitude.width = NULL,
+  density.legend = TRUE, density.legend.opacity = 1,
+  density.legend.position = "bottomleft", density.title = "",
+  density.control = FALSE, isogloss = NULL, isogloss.color = "black",
+  isogloss.opacity = 0.2, isogloss.line.width = 3,
+  isogloss.longitude.width = NULL, isogloss.latitude.width = NULL,
+  color = NULL, stroke.color = NULL, image.url = NULL,
+  image.width = 100, image.height = 100, image.X.shift = 0,
+  image.Y.shift = 0, title = NULL, stroke.title = NULL, control = FALSE,
+  legend = TRUE, legend.opacity = 1, legend.position = "topright",
+  stroke.legend = TRUE, stroke.legend.opacity = 1,
+  stroke.legend.position = "bottomleft", width = 5, stroke.radius = 9.5,
+  opacity = 1, stroke.opacity = 1, scale.bar = TRUE,
+  scale.bar.position = "bottomleft", minimap = FALSE,
   minimap.position = "bottomright", minimap.width = 150,
   minimap.height = 150, tile = "OpenStreetMap.Mapnik", tile.name = NULL,
   zoom.control = FALSE, zoom.level = NULL, rectangle.lng = NULL,
@@ -56,6 +60,8 @@ map.feature(languages, features = "", label = "", popup = "",
 
 \item{shape.size}{size of the \code{shape} icons}
 
+\item{pipe.data}{this variable is important, when you use map.feature with dplyr pipes. Expected usage: pipe.data = .}
+
 \item{shape.color}{color of the \code{shape} icons}
 
 \item{stroke.features}{additional independent stroke features}
@@ -81,6 +87,18 @@ map.feature(languages, features = "", label = "", popup = "",
 \item{density.title}{title of a density-feature legend}
 
 \item{density.control}{logical. If TRUE, function show layer control buttons for density plot. By default is FALSE}
+
+\item{isogloss}{dataframe with corresponding features}
+
+\item{isogloss.color}{vector of isoglosses' colors}
+
+\item{isogloss.opacity}{a numeric vector of density polygons opacity.}
+
+\item{isogloss.line.width}{a numeric value for line width}
+
+\item{isogloss.longitude.width}{bandwidths for longitude values. Defaults to normal reference bandwidth (see \link{bandwidth.nrd})}
+
+\item{isogloss.latitude.width}{bandwidths for latitude values. Defaults to normal reference bandwidth (see \link{bandwidth.nrd}).}
 
 \item{color}{vector of colors or palette. The color argument can be (1) a character vector of RGM or named colors; (2) the name of an RColorBrewer palette; (3) the full name of a viridis palette; (4) a function that receives a single value between 0 and 1 and returns a color. For more examples see \code{\link{colorNumeric}}}
 

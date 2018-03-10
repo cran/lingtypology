@@ -25,6 +25,12 @@
 #' @param density.points logical. If FALSE, it doesn't show points in polygones.
 #' @param density.title title of a density-feature legend
 #' @param density.control logical. If TRUE, function show layer control buttons for density plot. By default is FALSE
+#' @param isogloss dataframe with corresponding features
+#' @param isogloss.color vector of isoglosses' colors
+#' @param isogloss.opacity a numeric vector of density polygons opacity.
+#' @param isogloss.line.width a numeric value for line width
+#' @param isogloss.longitude.width bandwidths for longitude values. Defaults to normal reference bandwidth (see \link{bandwidth.nrd})
+#' @param isogloss.latitude.width bandwidths for latitude values. Defaults to normal reference bandwidth (see \link{bandwidth.nrd}).
 #' @param image.height numeric vector of image heights
 #' @param image.url character vector of URLs with an images
 #' @param image.width numeric vector of image widths
@@ -40,6 +46,7 @@
 #' @param shape \enumerate{ \item if TRUE, creates icons (up to five categories) for values in the \code{features} variable; \item it also could be a vector of any strings that represents the levels of the  \code{features} variable; \item it also could be a string vector that represents the number of observations in dataset.}
 #' @param shape.size size of the \code{shape} icons
 #' @param shape.color color of the \code{shape} icons
+#' @param pipe.data this variable is important, when you use map.feature with dplyr pipes. Expected usage: pipe.data = .
 #' @param map.orientation a character verctor with values "Pacific" and "Atlantic". It distinguishes Pacific-centered and Atlantic-centered maps. By default is "Pacific".
 #' @param minimap.height The height of the minimap in pixels.
 #' @param minimap.position the position of the minimap: "topright", "bottomright", "bottomleft","topleft"
@@ -141,6 +148,7 @@
 #' @importFrom grDevices topo.colors
 #' @importFrom rowr cbind.fill
 #' @importFrom magrittr %>%
+#' @export %>%
 #' @importFrom leaflet.minicharts addMinicharts
 #' @importFrom leaflet.minicharts popupArgs
 #'
@@ -157,6 +165,7 @@ map.feature <- function(languages,
                         label.emphasize = list(NULL, "black"),
                         shape = NULL,
                         shape.size = 20,
+                        pipe.data = NULL,
                         shape.color = "black",
                         stroke.features = NULL,
                         density.estimation = NULL,
@@ -170,6 +179,12 @@ map.feature <- function(languages,
                         density.legend.position = "bottomleft",
                         density.title = "",
                         density.control = FALSE,
+                        isogloss = NULL,
+                        isogloss.color = "black",
+                        isogloss.opacity = 0.2,
+                        isogloss.line.width = 3,
+                        isogloss.longitude.width = NULL,
+                        isogloss.latitude.width = NULL,
                         color = NULL,
                         stroke.color = NULL,
                         image.url = NULL,
@@ -246,6 +261,10 @@ map.feature <- function(languages,
 
   if (!is.null(density.estimation)) {
     mapfeat.df$density.estimation <- density.estimation
+  }
+
+  if (!is.null(isogloss)) {
+    mapfeat.df <- cbind(mapfeat.df, isogloss)
   }
 
   # if there are no latitude and longitude
@@ -412,16 +431,83 @@ map.feature <- function(languages,
     })
   }
 
+
+# create isogloss -------------------------------------------------------
+
+  if (!is.null(isogloss)) {
+    if (length(isogloss) > 1) {
+      isogloss.list <- apply(isogloss, 2, unique)
+      isogloss.df <- data.frame(value = NA, variable = NA)
+
+      sapply(seq_along(isogloss.list), function(i) {
+        sapply(seq_along(isogloss.list[[i]]), function(j) {
+          if (sum(isogloss[, names(isogloss.list[i])] %in%
+                  isogloss.list[[i]][j]) > 1) {
+            isogloss.df <<-
+              rbind(
+                isogloss.df,
+                data.frame(
+                  value = isogloss.list[[i]][j],
+                  variable = names(isogloss.list[i]),
+                  stringsAsFactors = FALSE
+                )
+              )
+          }
+        })
+      })
+      isogloss.df <- isogloss.df[-1,]
+    } else {
+      if(!is.data.frame(isogloss)){
+        isogloss <- as.data.frame(isogloss,
+                                  stringsAsFactors = FALSE,
+                                  col.names = "feature")
+      }
+      isogloss.vector <- unlist(isogloss)
+      isogloss.list <- unique(isogloss.vector)
+      isogloss.df <- data.frame(value = NA, variable = NA)
+      sapply(seq_along(isogloss.list), function(i) {
+        if (sum(isogloss.vector %in% isogloss.list[i]) > 1) {
+          isogloss.df <<- rbind(
+            isogloss.df,
+            data.frame(
+              value = isogloss.list[i],
+              variable = names(isogloss),
+              stringsAsFactors = FALSE
+            )
+          )
+        }
+      })
+      isogloss.df <- isogloss.df[-1,]
+    }
+  my_isogloss <- lapply(1:nrow(isogloss.df), function(i) {
+      polygon.points(
+        mapfeat.df[mapfeat.df[, isogloss.df[i,2]] == isogloss.df[i,1], 'lat'],
+        mapfeat.df[mapfeat.df[, isogloss.df[i,2]] == isogloss.df[i,1], 'long'],
+        latitude_width = isogloss.latitude.width,
+        longitude_width = isogloss.longitude.width
+      )
+    })
+
+  }
+
   ### create a map ------------------------------------------------------------
-  m <- leaflet::leaflet(mapfeat.df,
-                        option = leaflet::leafletOptions(zoomControl = zoom.control)) %>%
-    leaflet::addTiles(tile[1]) %>%
-    leaflet::addProviderTiles(tile[1], group = tile.name[1])
-  if (length(tile) > 1) {
-    mapply(function(other.tiles, other.tile.names) {
-      m <<- m %>% leaflet::addProviderTiles(other.tiles,
-                                            group = other.tile.names)
-    }, tile[-1], tile.name[-1])
+  if (!is.null(pipe.data)) {
+    m <- pipe.data
+  } else {
+    m <- leaflet::leaflet(
+      mapfeat.df,
+      option = leaflet::leafletOptions(zoomControl = zoom.control))
+  }
+  if (!("none" %in% tile)) {
+    m <- m %>%
+      leaflet::addTiles(tile[1]) %>%
+      leaflet::addProviderTiles(tile[1], group = tile.name[1])
+    if (length(tile) > 1) {
+      mapply(function(other.tiles, other.tile.names) {
+        m <<- m %>% leaflet::addProviderTiles(other.tiles,
+                                              group = other.tile.names)
+      }, tile[-1], tile.name[-1])
+    }
   }
 
   # map: add rectangle ------------------------------------------------------
@@ -508,6 +594,19 @@ map.feature <- function(languages,
     })
   }
 
+  # map: add isogloss ------------------------------------------
+  if (!is.null(isogloss)) {
+    lapply(seq_along(my_isogloss), function(x) {
+      m <<- m %>% leaflet::addPolylines(
+        data = my_isogloss[[x]],
+        color = isogloss.color,
+        opacity = isogloss.opacity,
+        weight = isogloss.line.width,
+        label = paste0(isogloss.df$variable, ": ", isogloss.df$value),
+        labelOptions = leaflet::labelOptions(textOnly = TRUE)
+      )
+    })
+  }
   # map: add graticule ------------------------------------------------------
   if (!is.null(graticule)) {
     m <- m %>% leaflet::addSimpleGraticule(interval = graticule)
@@ -671,17 +770,22 @@ map.feature <- function(languages,
       )
     if (legend == TRUE) {
       m <- m %>%
-        leaflet::addControl(
-          html = paste(
+        leaflet::addControl(html = paste(
+          collapse = "",
+          ifelse(!is.null(title),
+                 paste('<b>', title, "</b> <br>", collapse = ""),
+                 ""
+                 ),
+          paste(
             '<b><font size="4">',
             unique(icons),
             '</font></b>',
             unique(as.factor(mapfeat.df$features)),
             "<br>",
             collapse = ""
-          ),
-          position = legend.position
-        )
+          )
+        ),
+        position = legend.position)
     }}
 
 
