@@ -15,13 +15,13 @@
 #' @param glottolog.source A character vector that define which glottolog database is used: "original" or "modified" (by default)
 #' @param color vector of colors or palette. The color argument can be (1) a character vector of RGM or named colors; (2) the name of an RColorBrewer palette; (3) the full name of a viridis palette; (4) a function that receives a single value between 0 and 1 and returns a color. For more examples see \code{\link{colorNumeric}}
 #' @param control logical. If TRUE, function show layer control buttons. By default is FALSE
+#' @param density.method string with one of the two methods: "kernal density estimation" or "fixed distance" (default)
 #' @param density.estimation.color vector of density polygons' colors
 #' @param density.estimation.opacity a numeric vector of density polygons opacity.
-#' @param density.latitude.width bandwidths for latitude values. Defaults to normal reference bandwidth (see \link{bandwidth.nrd}).
 #' @param density.legend logical. If TRUE, function show legend for density features. By default is FALSE.
 #' @param density.legend.opacity a numeric vector of density-legend opacity.
 #' @param density.legend.position the position of the legend: "topright", "bottomright", "bottomleft","topleft"
-#' @param density.longitude.width bandwidths for longitude values. Defaults to normal reference bandwidth (see \link{bandwidth.nrd}).
+#' @param density.width for density.method = "fixed distance" it is a numeric measure (1 is 1km). For density.method = "kernal density estimation" it is a vector with two meausures (first is latitude, secong is longitude). Defaults are normal reference bandwidth (see \link{bandwidth.nrd}).
 #' @param density.points logical. If FALSE, it doesn't show points in polygones.
 #' @param density.title title of a density-feature legend
 #' @param density.control logical. If TRUE, function show layer control buttons for density plot. By default is FALSE
@@ -29,8 +29,7 @@
 #' @param isogloss.color vector of isoglosses' colors
 #' @param isogloss.opacity a numeric vector of density polygons opacity.
 #' @param isogloss.line.width a numeric value for line width
-#' @param isogloss.longitude.width bandwidths for longitude values. Defaults to normal reference bandwidth (see \link{bandwidth.nrd})
-#' @param isogloss.latitude.width bandwidths for latitude values. Defaults to normal reference bandwidth (see \link{bandwidth.nrd}).
+#' @param isogloss.width for density.method = "fixed distance" it is a numeric measure (1 is 1km). For density.method = "kernal density estimation" it is a vector with two meausures (first is latitude, secong is longitude). Defaults are normal reference bandwidth (see \link{bandwidth.nrd}).
 #' @param image.height numeric vector of image heights
 #' @param image.url character vector of URLs with an images
 #' @param image.width numeric vector of image widths
@@ -38,6 +37,7 @@
 #' @param image.Y.shift numeric vector of image's Y axis shift relative to the latitude-longitude point
 #' @param label.fsize numeric value of the label font size. By default is 14.
 #' @param label.hide logical. If FALSE, labels are displayed allways. If TRUE, labels are displayed on mouse over. By default is TRUE.
+#' @param label.font string with values of generic family: "serif", "sans-serif", "monospace", or font name e. g. "Times New Roman"
 #' @param label.position the position of labels: "left", "right", "top", "bottom"
 #' @param label.emphasize is the list. First argument is a vector of points in datframe that should be emphasized. Second argument is a string with a color for emphasis.
 #' @param legend logical. If TRUE, function show legend. By default is TRUE.
@@ -46,6 +46,7 @@
 #' @param shape \enumerate{ \item if TRUE, creates icons (up to five categories) for values in the \code{features} variable; \item it also could be a vector of any strings that represents the levels of the  \code{features} variable; \item it also could be a string vector that represents the number of observations in dataset.}
 #' @param shape.size size of the \code{shape} icons
 #' @param shape.color color of the \code{shape} icons
+#' @param facet character vector that provide a grouping variable. If it is no \code{NULL}, then as a result a list of leaflets for \code{sync} or \code{latticeView} functions from \code{mapview} package is returned.
 #' @param pipe.data this variable is important, when you use map.feature with dplyr pipes. Expected usage: pipe.data = .
 #' @param map.orientation a character verctor with values "Pacific" and "Atlantic". It distinguishes Pacific-centered and Atlantic-centered maps. By default is "Pacific".
 #' @param minimap.height The height of the minimap in pixels.
@@ -81,6 +82,7 @@
 #' @param graticule a numeric vector for graticule spacing in map units between horizontal and vertical lines.
 #' @param zoom.control logical. If TRUE, function shows zoom controls. By default is FALSE.
 #' @param zoom.level a numeric value of the zoom level.
+#' @param radius deprecated argument
 #' @author George Moroz <agricolamz@gmail.com>
 #' @examples
 #' map.feature(c("Adyghe", "Russian"))
@@ -148,19 +150,19 @@
 #' @importFrom grDevices topo.colors
 #' @importFrom rowr cbind.fill
 #' @importFrom magrittr %>%
-#' @export %>%
 #' @importFrom leaflet.minicharts addMinicharts
 #' @importFrom leaflet.minicharts popupArgs
-#'
+#' @export %>%
 
 map.feature <- function(languages,
                         features = "",
                         label = "",
                         popup = "",
-                        latitude = NULL,
-                        longitude = NULL,
+                        latitude = NA,
+                        longitude = NA,
                         label.hide = TRUE,
-                        label.fsize = 14,
+                        label.fsize = 15,
+                        label.font = "sans-serif",
                         label.position = "right",
                         label.emphasize = list(NULL, "black"),
                         shape = NULL,
@@ -169,11 +171,11 @@ map.feature <- function(languages,
                         shape.color = "black",
                         stroke.features = NULL,
                         density.estimation = NULL,
+                        density.method = "fixed distance",
                         density.estimation.color = NULL,
                         density.estimation.opacity = 0.6,
                         density.points = TRUE,
-                        density.longitude.width = NULL,
-                        density.latitude.width = NULL,
+                        density.width = NULL,
                         density.legend = TRUE,
                         density.legend.opacity = 1,
                         density.legend.position = "bottomleft",
@@ -183,8 +185,7 @@ map.feature <- function(languages,
                         isogloss.color = "black",
                         isogloss.opacity = 0.2,
                         isogloss.line.width = 3,
-                        isogloss.longitude.width = NULL,
-                        isogloss.latitude.width = NULL,
+                        isogloss.width = NULL,
                         color = NULL,
                         stroke.color = NULL,
                         image.url = NULL,
@@ -211,6 +212,7 @@ map.feature <- function(languages,
                         minimap.position = "bottomright",
                         minimap.width = 150,
                         minimap.height = 150,
+                        facet = NULL,
                         tile = "OpenStreetMap.Mapnik",
                         tile.name = NULL,
                         zoom.control = FALSE,
@@ -231,7 +233,11 @@ map.feature <- function(languages,
                         minichart.time = NULL,
                         minichart.labels = FALSE,
                         map.orientation = "Pacific",
-                        glottolog.source = "modified") {
+                        glottolog.source = "modified",
+                        radius = NULL) {
+  if(!is.null(radius)){
+    warning("The radius argument is deprecated. Use width argument instead.")
+  }
   ifelse(
     grepl(glottolog.source, "original"),
     glottolog <- lingtypology::glottolog.original,
@@ -240,17 +246,20 @@ map.feature <- function(languages,
   if (typeof(languages) == "list") {
     languages <- unlist(languages)
   }
+  if(!("fake" %in% tolower(languages))){
   if (sum(is.glottolog(
     languages,
     response = TRUE,
     glottolog.source = glottolog.source
   )) == 0) {
     stop("There is no data to map")
-  }
+  }}
 
   # create dataframe ---------------------------------------------------------
   mapfeat.df <- data.frame(languages, features,
-                           popup = popup)
+                           popup = popup,
+                           long = longitude,
+                           lat = latitude)
   if (sum(label == "") != length(label)) {
     mapfeat.df$label <- as.character(label)
     if (!is.null(label.emphasize[[1]])) {
@@ -269,7 +278,8 @@ map.feature <- function(languages,
 
   # if there are no latitude and longitude
 
-  if (is.null(latitude) & is.null(longitude)) {
+  if (sum(is.na(latitude) &
+          is.na(longitude)) == length(latitude & longitude)) {
     mapfeat.df$long <- long.lang(languages,
                                  map.orientation = map.orientation,
                                  glottolog.source = glottolog.source)
@@ -279,6 +289,10 @@ map.feature <- function(languages,
     # if there are latitude and longitude
     mapfeat.df$long <- longitude
     mapfeat.df$lat <- latitude
+  }
+
+  if (!is.null(facet)) {
+    mapfeat.df <- cbind(mapfeat.df, facet)
   }
 
   # if there are no coordinates... ------------------------------------------
@@ -421,15 +435,24 @@ map.feature <- function(languages,
   if (!is.null(density.estimation)) {
     my_poly_names <-
       names(which(table(mapfeat.df$density.estimation) > 1))
+    if(density.method != "fixed distance"){
     my_poly <- lapply(my_poly_names, function(feature) {
-      polygon.points(
+      polygon.points_kde(
         mapfeat.df[mapfeat.df$density.estimation == feature, 'lat'],
         mapfeat.df[mapfeat.df$density.estimation == feature, 'long'],
-        latitude_width = density.latitude.width,
-        longitude_width = density.longitude.width
+        latitude_width = density.width[1],
+        longitude_width = density.width[2]
       )
     })
-  }
+    } else{
+      my_poly <- lapply(my_poly_names, function(feature) {
+        polygon.points_fd(
+          mapfeat.df[mapfeat.df$density.estimation == feature, 'lat'],
+          mapfeat.df[mapfeat.df$density.estimation == feature, 'long'],
+          width = density.width)
+      })
+    }
+    }
 
 
 # create isogloss -------------------------------------------------------
@@ -480,15 +503,29 @@ map.feature <- function(languages,
       isogloss.df <- isogloss.df[-1,]
     }
   my_isogloss <- lapply(1:nrow(isogloss.df), function(i) {
-      polygon.points(
-        mapfeat.df[mapfeat.df[, isogloss.df[i,2]] == isogloss.df[i,1], 'lat'],
-        mapfeat.df[mapfeat.df[, isogloss.df[i,2]] == isogloss.df[i,1], 'long'],
-        latitude_width = isogloss.latitude.width,
-        longitude_width = isogloss.longitude.width
-      )
+    if(density.method != "fixed distance"){
+        polygon.points_kde(
+          mapfeat.df[mapfeat.df[, isogloss.df[i,2]] == isogloss.df[i,1], 'lat'],
+          mapfeat.df[mapfeat.df[, isogloss.df[i,2]] == isogloss.df[i,1], 'long'],
+          latitude_width = isogloss.width[1],
+          longitude_width = isogloss.width[2])
+    } else{
+        polygon.points_fd(
+          mapfeat.df[mapfeat.df[, isogloss.df[i,2]] == isogloss.df[i,1], 'lat'],
+          mapfeat.df[mapfeat.df[, isogloss.df[i,2]] == isogloss.df[i,1], 'long'],
+          width = isogloss.width)
+    }
     })
 
   }
+
+
+# create labels -----------------------------------------------------------
+
+  offset <- ifelse(label.position == "right",
+                   1,
+                   ifelse(label.position == "left",-1,
+                          0))
 
   ### create a map ------------------------------------------------------------
   if (!is.null(pipe.data)) {
@@ -536,9 +573,11 @@ map.feature <- function(languages,
         labelOptions = leaflet::labelOptions(
           noHide = !(label.hide),
           direction = label.position,
+          offset = c(label.fsize*offset/2, 0),
           textOnly = TRUE,
           style = list(
             "font-size" = paste0(label.fsize, "px"),
+            "font-family" = label.font,
             "color" = label.emphasize[[2]]
           )
         ),
@@ -564,9 +603,11 @@ map.feature <- function(languages,
         labelOptions = leaflet::labelOptions(
           noHide = !(label.hide),
           direction = label.position,
+          offset = c(label.fsize*offset/2, 0),
           textOnly = TRUE,
           style = list(
             "font-size" = paste0(label.fsize, "px"),
+            "font-family" = label.font,
             "color" = label.emphasize[[2]]
           )
         ),
@@ -640,8 +681,10 @@ map.feature <- function(languages,
         labelOptions = leaflet::labelOptions(
           noHide = !(label.hide),
           direction = label.position,
+          offset = c(label.fsize*offset/2, 0),
           textOnly = TRUE,
-          style = list("font-size" = paste0(label.fsize, "px"))
+          style = list("font-size" = paste0(label.fsize, "px"),
+                       "font-family" = label.font)
         ),
         stroke = FALSE,
         radius = 1.15 * width,
@@ -678,8 +721,10 @@ map.feature <- function(languages,
         labelOptions = leaflet::labelOptions(
           noHide = !(label.hide),
           direction = label.position,
+          offset = c(label.fsize*offset/2, 0),
           textOnly = TRUE,
-          style = list("font-size" = paste0(label.fsize, "px"))
+          style = list("font-size" = paste0(label.fsize, "px"),
+                       "font-family" = label.font)
         )
       )
   }
@@ -741,16 +786,19 @@ map.feature <- function(languages,
       icons <- as.character(shape[as.factor(mapfeat.df$features)])
     }
 
-    m <- m %>% addLabelOnlyMarkers(
+    m <- m %>% leaflet::addCircleMarkers(
       lng = mapfeat.df$long,
       lat = mapfeat.df$lat,
       label = icons,
-      labelOptions = labelOptions(
+      opacity = 0,
+      fillOpacity = 0,
+      labelOptions = leaflet::labelOptions(
         noHide = TRUE,
         textOnly = TRUE,
         textsize = paste0(shape.size, "px"),
-        offset = c(-7,-14),
-        style = list("color" = shape.color)
+        direction = "center",
+        style = list("color" = shape.color,
+                     "font-family" = label.font)
       )
     ) %>%
       leaflet::addCircleMarkers(
@@ -760,12 +808,16 @@ map.feature <- function(languages,
         stroke = FALSE,
         radius = width,
         fillOpacity = 0,
+        color = pal(mapfeat.df$features),
+        group = mapfeat.df$features,
         label = mapfeat.df$label,
         labelOptions = leaflet::labelOptions(
           noHide = !(label.hide),
           direction = label.position,
+          offset = c(label.fsize*offset/2, 0),
           textOnly = TRUE,
-          style = list("font-size" = paste0(label.fsize, "px"))
+          style = list("font-size" = paste0(label.fsize, "px"),
+                       "font-family" = label.font)
         )
       )
     if (legend == TRUE) {
@@ -785,7 +837,26 @@ map.feature <- function(languages,
             collapse = ""
           )
         ),
-        position = legend.position)
+        position = legend.position)%>%
+        leaflet::addCircleMarkers(
+          lng = mapfeat.df$long,
+          lat = mapfeat.df$lat,
+          popup = mapfeat.df$link,
+          stroke = FALSE,
+          radius = width,
+          fillOpacity = 0,
+          color = pal(mapfeat.df$features),
+          group = mapfeat.df$features,
+          label = mapfeat.df$label,
+          labelOptions = leaflet::labelOptions(
+            noHide = !(label.hide),
+            direction = label.position,
+            offset = c(label.fsize*offset/2, 0),
+            textOnly = TRUE,
+            style = list("font-size" = paste0(label.fsize, "px"),
+                         "font-family" = label.font)
+          )
+        )
     }}
 
 
@@ -803,8 +874,10 @@ map.feature <- function(languages,
             labelOptions = leaflet::labelOptions(
               noHide = !(label.hide),
               direction = label.position,
+              offset = c(label.fsize*offset/2, 0),
               textOnly = TRUE,
               style = list("font-size" = paste0(label.fsize, "px"),
+                           "font-family" = label.font,
                            "color" = label.emphasize[[2]])),
             group = mapfeat.df$features
           )
@@ -879,6 +952,11 @@ map.feature <- function(languages,
         values = mapfeat.df$features,
         opacity = legend.opacity
       )
+    } else if(sum(mapfeat.df$features == "") == length(mapfeat.df$features) &
+              !is.null(title)){
+      m <- m %>% leaflet::addControl(
+        html = paste('<b>', title, "</b>"),
+        position = legend.position)
     }
 
     # map: stroke.legend ------------------------------------------------------
@@ -906,6 +984,7 @@ map.feature <- function(languages,
     # map: MiniMap ------------------------------------------------------------
     if (minimap == TRUE) {
       m <- m %>% leaflet::addMiniMap(
+        tiles = tile[1],
         position = minimap.position,
         width = minimap.width,
         height = minimap.height,
@@ -921,5 +1000,96 @@ map.feature <- function(languages,
         zoom = zoom.level
       )
     }
-    m
+
+# facetisation ------------------------------------------------------------
+  if(!is.null(facet)){
+    facet_levels <- unique(mapfeat.df$facet)
+    list <- lapply(facet_levels, function(i){
+      df <- mapfeat.df[mapfeat.df$facet == i,]
+      map.feature <- map.feature(df$languages,
+                                 features = df$features,
+                                 label = df$label,
+                                 popup = df$popup,
+                                 latitude = df$lat,
+                                 longitude = df$long,
+                                 density.estimation = df$density.estimation,
+                                 stroke.features = stroke.features[mapfeat.df$facet == i],
+                                 isogloss = isogloss[mapfeat.df$facet == i,],
+                                 title = paste(i, ifelse(title == "", "", paste("<br>", title))),
+                                 minichart.data = minichart.data[mapfeat.df$facet == i,],
+                                 minichart.time = minichart.time[mapfeat.df$facet == i,],
+                                 minichart.labels = minichart.labels,
+                                 shape = shape,
+                                 label.hide = label.hide,
+                                 label.fsize = label.fsize,
+                                 label.font = label.font,
+                                 label.position = label.position,
+                                 label.emphasize = label.emphasize,
+                                 shape.size = shape.size,
+                                 pipe.data = pipe.data,
+                                 shape.color = shape.color,
+                                 density.method = density.method,
+                                 density.estimation.color = density.estimation.color,
+                                 density.estimation.opacity = density.estimation.opacity,
+                                 density.points = density.points,
+                                 density.width = density.width,
+                                 density.legend = density.legend,
+                                 density.legend.opacity = density.legend.opacity,
+                                 density.legend.position = density.legend.position,
+                                 density.title = density.title,
+                                 density.control = density.control,
+                                 isogloss.color = isogloss.color,
+                                 isogloss.opacity = isogloss.opacity,
+                                 isogloss.line.width = isogloss.line.width,
+                                 isogloss.width = isogloss.width,
+                                 color = color,
+                                 stroke.color = stroke.color,
+                                 image.url = image.url,
+                                 image.width = image.width,
+                                 image.height = image.height ,
+                                 image.X.shift = image.X.shift,
+                                 image.Y.shift = image.Y.shift,
+                                 stroke.title = stroke.title,
+                                 control = control,
+                                 legend = legend,
+                                 legend.opacity = legend.opacity,
+                                 legend.position = legend.position,
+                                 stroke.legend = stroke.legend,
+                                 stroke.legend.opacity = stroke.legend.opacity,
+                                 stroke.legend.position = stroke.legend.position,
+                                 width = width,
+                                 stroke.radius = stroke.radius,
+                                 opacity = opacity,
+                                 stroke.opacity = stroke.opacity,
+                                 scale.bar = scale.bar,
+                                 scale.bar.position = scale.bar.position,
+                                 minimap = minimap,
+                                 minimap.position = minimap.position,
+                                 minimap.width = minimap.width,
+                                 minimap.height = minimap.height,
+                                 facet = NULL,
+                                 tile = tile,
+                                 tile.name = tile.name,
+                                 zoom.control = zoom.control,
+                                 zoom.level = zoom.level,
+                                 rectangle.lng = rectangle.lng,
+                                 rectangle.lat = rectangle.lat,
+                                 rectangle.color = rectangle.color,
+                                 line.lng = line.lng,
+                                 line.lat = line.lat,
+                                 line.type = line.type,
+                                 line.color = line.color,
+                                 line.opacity = line.opacity,
+                                 line.label = line.label,
+                                 line.width = line.width,
+                                 graticule = graticule,
+                                 minichart = minichart,
+                                 map.orientation = map.orientation,
+                                 glottolog.source = glottolog.source,
+                                 radius = radius)
+    })
+    return(list)
+  } else{
+    return(m)
+  }
   }

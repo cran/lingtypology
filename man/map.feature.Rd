@@ -5,35 +5,34 @@
 \title{Create a map}
 \usage{
 map.feature(languages, features = "", label = "", popup = "",
-  latitude = NULL, longitude = NULL, label.hide = TRUE,
-  label.fsize = 14, label.position = "right", label.emphasize = list(NULL,
-  "black"), shape = NULL, shape.size = 20, pipe.data = NULL,
-  shape.color = "black", stroke.features = NULL,
-  density.estimation = NULL, density.estimation.color = NULL,
-  density.estimation.opacity = 0.6, density.points = TRUE,
-  density.longitude.width = NULL, density.latitude.width = NULL,
-  density.legend = TRUE, density.legend.opacity = 1,
-  density.legend.position = "bottomleft", density.title = "",
-  density.control = FALSE, isogloss = NULL, isogloss.color = "black",
-  isogloss.opacity = 0.2, isogloss.line.width = 3,
-  isogloss.longitude.width = NULL, isogloss.latitude.width = NULL,
-  color = NULL, stroke.color = NULL, image.url = NULL,
-  image.width = 100, image.height = 100, image.X.shift = 0,
-  image.Y.shift = 0, title = NULL, stroke.title = NULL, control = FALSE,
-  legend = TRUE, legend.opacity = 1, legend.position = "topright",
-  stroke.legend = TRUE, stroke.legend.opacity = 1,
-  stroke.legend.position = "bottomleft", width = 5, stroke.radius = 9.5,
-  opacity = 1, stroke.opacity = 1, scale.bar = TRUE,
-  scale.bar.position = "bottomleft", minimap = FALSE,
+  latitude = NA, longitude = NA, label.hide = TRUE, label.fsize = 15,
+  label.font = "sans-serif", label.position = "right",
+  label.emphasize = list(NULL, "black"), shape = NULL, shape.size = 20,
+  pipe.data = NULL, shape.color = "black", stroke.features = NULL,
+  density.estimation = NULL, density.method = "fixed distance",
+  density.estimation.color = NULL, density.estimation.opacity = 0.6,
+  density.points = TRUE, density.width = NULL, density.legend = TRUE,
+  density.legend.opacity = 1, density.legend.position = "bottomleft",
+  density.title = "", density.control = FALSE, isogloss = NULL,
+  isogloss.color = "black", isogloss.opacity = 0.2,
+  isogloss.line.width = 3, isogloss.width = NULL, color = NULL,
+  stroke.color = NULL, image.url = NULL, image.width = 100,
+  image.height = 100, image.X.shift = 0, image.Y.shift = 0,
+  title = NULL, stroke.title = NULL, control = FALSE, legend = TRUE,
+  legend.opacity = 1, legend.position = "topright", stroke.legend = TRUE,
+  stroke.legend.opacity = 1, stroke.legend.position = "bottomleft",
+  width = 5, stroke.radius = 9.5, opacity = 1, stroke.opacity = 1,
+  scale.bar = TRUE, scale.bar.position = "bottomleft", minimap = FALSE,
   minimap.position = "bottomright", minimap.width = 150,
-  minimap.height = 150, tile = "OpenStreetMap.Mapnik", tile.name = NULL,
-  zoom.control = FALSE, zoom.level = NULL, rectangle.lng = NULL,
-  rectangle.lat = NULL, rectangle.color = "black", line.lng = NULL,
-  line.lat = NULL, line.type = "standard", line.color = "black",
-  line.opacity = 0.8, line.label = NULL, line.width = 3,
-  graticule = NULL, minichart = NULL, minichart.data = NULL,
-  minichart.time = NULL, minichart.labels = FALSE,
-  map.orientation = "Pacific", glottolog.source = "modified")
+  minimap.height = 150, facet = NULL, tile = "OpenStreetMap.Mapnik",
+  tile.name = NULL, zoom.control = FALSE, zoom.level = NULL,
+  rectangle.lng = NULL, rectangle.lat = NULL, rectangle.color = "black",
+  line.lng = NULL, line.lat = NULL, line.type = "standard",
+  line.color = "black", line.opacity = 0.8, line.label = NULL,
+  line.width = 3, graticule = NULL, minichart = NULL,
+  minichart.data = NULL, minichart.time = NULL, minichart.labels = FALSE,
+  map.orientation = "Pacific", glottolog.source = "modified",
+  radius = NULL)
 }
 \arguments{
 \item{languages}{character vector of languages (can be written in lower case)}
@@ -52,6 +51,8 @@ map.feature(languages, features = "", label = "", popup = "",
 
 \item{label.fsize}{numeric value of the label font size. By default is 14.}
 
+\item{label.font}{string with values of generic family: "serif", "sans-serif", "monospace", or font name e. g. "Times New Roman"}
+
 \item{label.position}{the position of labels: "left", "right", "top", "bottom"}
 
 \item{label.emphasize}{is the list. First argument is a vector of points in datframe that should be emphasized. Second argument is a string with a color for emphasis.}
@@ -68,15 +69,15 @@ map.feature(languages, features = "", label = "", popup = "",
 
 \item{density.estimation}{additional independent features, used for density estimation}
 
+\item{density.method}{string with one of the two methods: "kernal density estimation" or "fixed distance" (default)}
+
 \item{density.estimation.color}{vector of density polygons' colors}
 
 \item{density.estimation.opacity}{a numeric vector of density polygons opacity.}
 
 \item{density.points}{logical. If FALSE, it doesn't show points in polygones.}
 
-\item{density.longitude.width}{bandwidths for longitude values. Defaults to normal reference bandwidth (see \link{bandwidth.nrd}).}
-
-\item{density.latitude.width}{bandwidths for latitude values. Defaults to normal reference bandwidth (see \link{bandwidth.nrd}).}
+\item{density.width}{for density.method = "fixed distance" it is a numeric measure (1 is 1km). For density.method = "kernal density estimation" it is a vector with two meausures (first is latitude, secong is longitude). Defaults are normal reference bandwidth (see \link{bandwidth.nrd}).}
 
 \item{density.legend}{logical. If TRUE, function show legend for density features. By default is FALSE.}
 
@@ -96,9 +97,7 @@ map.feature(languages, features = "", label = "", popup = "",
 
 \item{isogloss.line.width}{a numeric value for line width}
 
-\item{isogloss.longitude.width}{bandwidths for longitude values. Defaults to normal reference bandwidth (see \link{bandwidth.nrd})}
-
-\item{isogloss.latitude.width}{bandwidths for latitude values. Defaults to normal reference bandwidth (see \link{bandwidth.nrd}).}
+\item{isogloss.width}{for density.method = "fixed distance" it is a numeric measure (1 is 1km). For density.method = "kernal density estimation" it is a vector with two meausures (first is latitude, secong is longitude). Defaults are normal reference bandwidth (see \link{bandwidth.nrd}).}
 
 \item{color}{vector of colors or palette. The color argument can be (1) a character vector of RGM or named colors; (2) the name of an RColorBrewer palette; (3) the full name of a viridis palette; (4) a function that receives a single value between 0 and 1 and returns a color. For more examples see \code{\link{colorNumeric}}}
 
@@ -152,6 +151,8 @@ map.feature(languages, features = "", label = "", popup = "",
 
 \item{minimap.height}{The height of the minimap in pixels.}
 
+\item{facet}{character vector that provide a grouping variable. If it is no \code{NULL}, then as a result a list of leaflets for \code{sync} or \code{latticeView} functions from \code{mapview} package is returned.}
+
 \item{tile}{a character verctor with a map tiles, popularized by Google Maps. See \href{https://leaflet-extras.github.io/leaflet-providers/preview/index.html}{here} for the complete set.}
 
 \item{tile.name}{a character verctor with a user's map tiles' names.}
@@ -193,6 +194,8 @@ map.feature(languages, features = "", label = "", popup = "",
 \item{map.orientation}{a character verctor with values "Pacific" and "Atlantic". It distinguishes Pacific-centered and Atlantic-centered maps. By default is "Pacific".}
 
 \item{glottolog.source}{A character vector that define which glottolog database is used: "original" or "modified" (by default)}
+
+\item{radius}{deprecated argument}
 }
 \description{
 Map a set of languages and color them by feature or two sets of features.
