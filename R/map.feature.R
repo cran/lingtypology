@@ -149,7 +149,7 @@
 #' @importFrom grDevices gray
 #' @importFrom grDevices topo.colors
 #' @importFrom rowr cbind.fill
-#' @importFrom magrittr %>%
+#' @importFrom leaflet %>%
 #' @importFrom leaflet.minicharts addMinicharts
 #' @importFrom leaflet.minicharts popupArgs
 #' @export %>%
@@ -238,10 +238,10 @@ map.feature <- function(languages,
   if(!is.null(radius)){
     warning("The radius argument is deprecated. Use width argument instead.")
   }
-  ifelse(
+  glottolog <- ifelse(
     grepl(glottolog.source, "original"),
-    glottolog <- lingtypology::glottolog.original,
-    glottolog <- lingtypology::glottolog.modified
+    lingtypology::glottolog.original,
+    lingtypology::glottolog.modified
   )
   if (typeof(languages) == "list") {
     languages <- unlist(languages)
@@ -256,7 +256,7 @@ map.feature <- function(languages,
   }}
 
   # create dataframe ---------------------------------------------------------
-  mapfeat.df <- data.frame(languages, features,
+  mapfeat.df <- data.frame(languages = unname(languages), features,
                            popup = popup,
                            long = longitude,
                            lat = latitude)
@@ -825,11 +825,11 @@ map.feature <- function(languages,
         leaflet::addControl(html = paste(
           collapse = "",
           ifelse(!is.null(title),
-                 paste('<b>', title, "</b> <br>", collapse = ""),
+                 paste('<b><font size="4" face = "', label.font, '">', title, "</font></b> <br>", collapse = ""),
                  ""
                  ),
           paste(
-            '<b><font size="4">',
+            '<b><font size="4" face = "', label.font, '">',
             unique(icons),
             '</font></b>',
             unique(as.factor(mapfeat.df$features)),
@@ -955,7 +955,12 @@ map.feature <- function(languages,
     } else if(sum(mapfeat.df$features == "") == length(mapfeat.df$features) &
               !is.null(title)){
       m <- m %>% leaflet::addControl(
-        html = paste('<b>', title, "</b>"),
+        html = paste('<b><font size="4" face = "',
+                     label.font,
+                     '">',
+                     title,
+                     "</font></b> <br>",
+                     collapse = ""),
         position = legend.position)
     }
 

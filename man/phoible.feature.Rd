@@ -4,12 +4,10 @@
 \alias{phoible.feature}
 \title{Download PHOIBLE data}
 \usage{
-phoible.feature(features = "all", source = "all", na.rm = TRUE,
+phoible.feature(source = "all", na.rm = TRUE,
   glottolog.source = "modified")
 }
 \arguments{
-\item{features}{A character vector that define with a feature names from PHOIBLE (possible values: "all", "Phonemes", "Consonants", "Tones", "Vowels").}
-
 \item{source}{A character vector that define with a source names from PHOIBLE (possible values: "all", "AA", "GM", "PH", "RA", "SAPHON", "SPA", "UPSID").}
 
 \item{na.rm}{Logical. If TRUE function removes all languages not available in lingtypology database. By default is TRUE.}
@@ -24,7 +22,7 @@ This function downloads data from PHOIBLE (http://phoible.org/) and changes lang
 # phoible.feature(c('consonants', 'vowels'), source = "UPSID")
 }
 \seealso{
-\code{\link{abvd.feature}}, \code{\link{afbo.feature}}, \code{\link{autotyp.feature}}, \code{\link{oto_mangueanIC.feature}}, \code{\link{sails.feature}}, \code{\link{valpal.feature}}, \code{\link{wals.feature}}
+\code{\link{abvd.feature}}, \code{\link{afbo.feature}}, \code{\link{autotyp.feature}}, \code{\link{oto_mangueanIC.feature}}, \code{\link{sails.feature}}, \code{\link{uralex.feature}}, \code{\link{valpal.feature}}, \code{\link{wals.feature}}
 }
 \author{
 George Moroz <agricolamz@gmail.com>
