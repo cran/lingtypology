@@ -1,7 +1,7 @@
 Package: lingtypology
 Type: Package
 Title: Linguistic Typology and Mapping
-Version: 1.0.14
+Version: 1.0.15
 Depends: R (>= 3.5.0)
 Imports: leaflet, leaflet.minicharts, stats, utils, stringdist,
         grDevices, rowr
@@ -14,12 +14,12 @@ URL: https://CRAN.R-project.org/package=lingtypology,
         https://github.com/ropensci/lingtypology/
 BugReports: https://github.com/ropensci/lingtypology/issues
 LazyData: TRUE
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.0
 Encoding: UTF-8
 Suggests: knitr, rmarkdown, testthat, covr, MASS, sp, rgeos, rgdal,
         ggplot2
 VignetteBuilder: knitr
 NeedsCompilation: no
-Packaged: 2019-08-26 16:49:19 UTC; agricolamz
+Packaged: 2019-11-22 10:03:28 UTC; agricolamz
 Repository: CRAN
-Date/Publication: 2019-08-26 17:30:02 UTC
+Date/Publication: 2019-11-22 10:30:02 UTC
