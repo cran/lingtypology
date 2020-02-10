@@ -12,7 +12,6 @@
 #' @param label character vector of strings that will appear near points
 #' @param minimap logical. If TRUE, function shows mini map. By default is FALSE.
 #' @param tile a character verctor with a map tiles, popularized by Google Maps. See \href{https://leaflet-extras.github.io/leaflet-providers/preview/index.html}{here} for the complete set.
-#' @param glottolog.source A character vector that define which glottolog database is used: "original" or "modified" (by default)
 #' @param color vector of colors or palette. The color argument can be (1) a character vector of RGM or named colors; (2) the name of an RColorBrewer palette; (3) the full name of a viridis palette; (4) a function that receives a single value between 0 and 1 and returns a color. For more examples see \code{\link{colorNumeric}}
 #' @param control logical. If TRUE, function show layer control buttons. By default is FALSE
 #' @param density.method string with one of the two methods: "kernal density estimation" or "fixed distance" (default)
@@ -87,39 +86,6 @@
 #' @examples
 #' map.feature(c("Adyghe", "Russian"))
 #'
-#' ## Map all Slavic languages
-#' map.feature(lang.aff(c("Slavic")))
-#'
-#' ## Color languages by feature
-#' df <- data.frame(lang = c("Adyghe", "Kabardian", "Polish", "Russian", "Bulgarian"),
-#' feature = c("polysynthetic", "polysynthetic", "fusion", "fusion", "fusion"))
-#' map.feature(df$lang, df$feature)
-#'
-#' ## Add your own coordinates
-#' map.feature("Adyghe", latitude = 43, longitude = 57)
-#'
-#' ## Change map tile
-#' map.feature("Adyghe", tile = "Thunderforest.OpenCycleMap")
-#'
-#' ## Add you own colors
-#' df <- data.frame(lang = c("Adyghe", "Kabardian", "Polish", "Russian", "Bulgarian"),
-#' feature = c("polysynthetic", "polysynthetic", "fusion", "fusion", "fusion"),
-#' popup = c("Circassian", "Circassian", "Slavic", "Slavic", "Slavic"))
-#' map.feature(df$lang, df$feature, df$popup, color = c("green", "navy"))
-#'
-#' ## Map two sets of features
-#' df <- data.frame(lang = c("Adyghe", "Kabardian", "Polish", "Russian", "Bulgarian"),
-#' feature = c("polysynthetic", "polysynthetic", "fusion", "fusion", "fusion"),
-#' popup = c("Circassian", "Circassian", "Slavic", "Slavic", "Slavic"))
-#' map.feature(df$lang, df$feature, df$popup,
-#' stroke.features = df$popup)
-#'
-#' ## Add a minimap to plot
-#' map.feature(c("Adyghe", "Russian"), minimap = TRUE)
-#'
-#' ## Remove scale bar
-#' map.feature(c("Adyghe", "Russian"), scale.bar = FALSE)
-#'
 #' @export
 #' @importFrom leaflet colorNumeric
 #' @importFrom leaflet colorFactor
@@ -148,7 +114,6 @@
 #' @importFrom stats coef
 #' @importFrom grDevices gray
 #' @importFrom grDevices topo.colors
-#' @importFrom rowr cbind.fill
 #' @importFrom leaflet %>%
 #' @importFrom leaflet.minicharts addMinicharts
 #' @importFrom leaflet.minicharts popupArgs
@@ -233,24 +198,18 @@ map.feature <- function(languages,
                         minichart.time = NULL,
                         minichart.labels = FALSE,
                         map.orientation = "Pacific",
-                        glottolog.source = "modified",
                         radius = NULL) {
   if(!is.null(radius)){
     warning("The radius argument is deprecated. Use width argument instead.")
   }
-  glottolog <- ifelse(
-    grepl(glottolog.source, "original"),
-    lingtypology::glottolog.original,
-    lingtypology::glottolog.modified
-  )
+  glottolog <- lingtypology::glottolog
   if (typeof(languages) == "list") {
     languages <- unlist(languages)
   }
   if(!("fake" %in% tolower(languages))){
   if (sum(is.glottolog(
     languages,
-    response = TRUE,
-    glottolog.source = glottolog.source
+    response = TRUE
   )) == 0) {
     stop("There is no data to map")
   }}
@@ -281,10 +240,9 @@ map.feature <- function(languages,
   if (sum(is.na(latitude) &
           is.na(longitude)) == length(latitude & longitude)) {
     mapfeat.df$long <- long.lang(languages,
-                                 map.orientation = map.orientation,
-                                 glottolog.source = glottolog.source)
+                                 map.orientation = map.orientation)
     mapfeat.df$lat <-
-      lat.lang(languages, glottolog.source = glottolog.source)
+      lat.lang(languages)
   } else {
     # if there are latitude and longitude
     mapfeat.df$long <- longitude
@@ -313,8 +271,7 @@ map.feature <- function(languages,
   if(!("fake" %in% tolower(languages))){
   mapfeat.df$link <- url.lang(
     as.character(mapfeat.df$languages),
-    popup = mapfeat.df$popup,
-    glottolog.source = glottolog.source
+    popup = mapfeat.df$popup
   )} else {
     mapfeat.df$link <- mapfeat.df$popup
   }
@@ -322,14 +279,14 @@ map.feature <- function(languages,
   # add images --------------------------------------------------------------
   if (!is.null(image.url)) {
     mapfeat.image <-
-      rowr::cbind.fill(mapfeat.df[, -2], data.frame(image.url))
+      cbind(mapfeat.df[, -2], data.frame(image.url))
     mapfeat.image <-
       mapfeat.image[stats::complete.cases(mapfeat.image), ]
   }
 
   # create a stroke dataframe -----------------------------------------------
   if (!is.null(stroke.features)) {
-    mapfeat.stroke <- rowr::cbind.fill(mapfeat.df[, -2],
+    mapfeat.stroke <- cbind(mapfeat.df[, -2],
                                        data.frame(stroke.features))
     mapfeat.stroke <-
       mapfeat.stroke[stats::complete.cases(mapfeat.stroke), ]
@@ -757,21 +714,38 @@ map.feature <- function(languages,
 
     mapfeat.df$link <- paste0(mapfeat.df$link, tables)
 
-    m <- m %>% leaflet.minicharts::addMinicharts(
+    m <- m %>% leaflet::addCircleMarkers(
       lng = mapfeat.df$long,
       lat = mapfeat.df$lat,
-      chartdata = minichart.data,
-      type = minichart,
-      legend = legend,
-      width = 7 * width,
-      showLabels = minichart.labels,
-      popup = leaflet.minicharts::popupArgs(html = mapfeat.df$link),
-      time = minichart.time,
-      legendPosition = legend.position,
-      opacity = opacity,
-      colorPalette = color,
-      fillColor = color[1]
-    )
+      popup = mapfeat.df$link,
+      stroke = FALSE,
+      radius = width,
+      fillOpacity = opacity,
+      color = pal(mapfeat.df$features),
+      group = mapfeat.df$features,
+      label = mapfeat.df$label,
+      labelOptions = leaflet::labelOptions(
+        noHide = !(label.hide),
+        direction = label.position,
+        offset = c(label.fsize*offset/2, 0),
+        textOnly = TRUE,
+        style = list("font-size" = paste0(label.fsize, "px"),
+                     "font-family" = label.font)
+      )) %>% leaflet.minicharts::addMinicharts(
+        lng = mapfeat.df$long,
+        lat = mapfeat.df$lat,
+        chartdata = minichart.data,
+        type = minichart,
+        legend = legend,
+        width = 7 * width,
+        showLabels = minichart.labels,
+        popup = leaflet.minicharts::popupArgs(html = mapfeat.df$link),
+        time = minichart.time,
+        legendPosition = legend.position,
+        opacity = opacity,
+        colorPalette = color,
+        fillColor = color[1]
+      )
   }
 
   # map: add shapes ---------------------------------------------------------
@@ -1093,7 +1067,6 @@ map.feature <- function(languages,
                                  graticule = graticule,
                                  minichart = minichart,
                                  map.orientation = map.orientation,
-                                 glottolog.source = glottolog.source,
                                  radius = radius)
     })
     return(list)
