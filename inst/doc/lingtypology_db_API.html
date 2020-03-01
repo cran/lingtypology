@@ -8,11 +8,11 @@
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <meta name="author" content="George Moroz" />
 
-<meta name="date" content="2020-02-10" />
+<meta name="date" content="2020-03-01" />
 
 <title>lingtypology: Typological databases API</title>
 
@@ -119,9 +119,6 @@ padding-right: 2em;
 font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 font-size: 14px;
 line-height: 1.35;
-}
-#header {
-text-align: center;
 }
 #TOC {
 clear: both;
@@ -290,7 +287,8 @@ code > span.st { color: #d14; }
 code > span.co { color: #888888; font-style: italic; } 
 code > span.ot { color: #007020; } 
 code > span.al { color: #ff0000; font-weight: bold; } 
-code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61717; background-color: #e3d2d2; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
 </style>
 
 
@@ -305,7 +303,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 
 <h1 class="title toc-ignore"><code>lingtypology</code>: Typological databases API</h1>
 <h4 class="author">George Moroz</h4>
-<h4 class="date">2020-02-10</h4>
+<h4 class="date">2020-03-01</h4>
 
 
 
@@ -345,11 +343,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <h3>3. PHOIBLE</h3>
 <p>I used only four features from PHOIBLE: the number of phonemes, the number of consonants, the number of tones and the number of vowels. If you need only a set of them, just specify it in the <code>features</code> argument. Since there is a lot of doubling information in the PHOIBLE database, there is an argument <code>source</code>.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>df &lt;-<span class="st"> </span><span class="kw">phoible.feature</span>(<span class="dt">source =</span> <span class="st">&quot;UPSID&quot;</span>)</span>
-<span id="cb3-2"><a href="#cb3-2"></a><span class="kw">head</span>(df)</span>
-<span id="cb3-3"><a href="#cb3-3"></a><span class="kw">map.feature</span>(df<span class="op">$</span>language,</span>
-<span id="cb3-4"><a href="#cb3-4"></a>            <span class="dt">features =</span> df<span class="op">$</span>phonemes,</span>
-<span id="cb3-5"><a href="#cb3-5"></a>            <span class="dt">label =</span> df<span class="op">$</span>language,</span>
-<span id="cb3-6"><a href="#cb3-6"></a>            <span class="dt">title =</span> <span class="st">&quot;Number of Phonemes&quot;</span>)</span></code></pre></div>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="kw">head</span>(df)</span></code></pre></div>
 </div>
 <div id="afbo" class="section level3">
 <h3>4. AfBo</h3>
@@ -376,7 +370,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <div id="abvd" class="section level3">
 <h3>6. ABVD</h3>
 <p>The ABVD database is a lexical database, so it is different from clld databases. First of all, ABVD has its own language classification ids. The information about the same language from different sources can be received from these database different ids. So I select several languages and map them coloring by word with the meaning ‘hand’.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>df &lt;-<span class="st"> </span><span class="kw">abvd.feature</span>(<span class="dv">50</span><span class="op">:</span><span class="dv">55</span>)</span>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>df &lt;-<span class="st"> </span><span class="kw">abvd.feature</span>(<span class="kw">c</span>(<span class="dv">292</span>, <span class="dv">7</span>))</span>
 <span id="cb6-2"><a href="#cb6-2"></a><span class="kw">head</span>(df)</span>
 <span id="cb6-3"><a href="#cb6-3"></a>new_df &lt;-<span class="st"> </span>df[df<span class="op">$</span>word <span class="op">==</span><span class="st"> &quot;hand&quot;</span>,]</span>
 <span id="cb6-4"><a href="#cb6-4"></a><span class="kw">map.feature</span>(new_df<span class="op">$</span>language,</span>

@@ -193,7 +193,7 @@ map.feature <- function(languages,
                         line.label = NULL,
                         line.width = 3,
                         graticule = NULL,
-                        minichart = NULL,
+                        minichart = "bar",
                         minichart.data = NULL,
                         minichart.time = NULL,
                         minichart.labels = FALSE,
@@ -218,7 +218,8 @@ map.feature <- function(languages,
   mapfeat.df <- data.frame(languages = unname(languages), features,
                            popup = popup,
                            long = longitude,
-                           lat = latitude)
+                           lat = latitude,
+                           stringsAsFactors = FALSE)
   if (sum(label == "") != length(label)) {
     mapfeat.df$label <- as.character(label)
     if (!is.null(label.emphasize[[1]])) {
@@ -279,7 +280,7 @@ map.feature <- function(languages,
   # add images --------------------------------------------------------------
   if (!is.null(image.url)) {
     mapfeat.image <-
-      cbind(mapfeat.df[, -2], data.frame(image.url))
+      cbind(mapfeat.df[, -2], data.frame(image.url, stringsAsFactors = FALSE))
     mapfeat.image <-
       mapfeat.image[stats::complete.cases(mapfeat.image), ]
   }
@@ -287,7 +288,7 @@ map.feature <- function(languages,
   # create a stroke dataframe -----------------------------------------------
   if (!is.null(stroke.features)) {
     mapfeat.stroke <- cbind(mapfeat.df[, -2],
-                                       data.frame(stroke.features))
+                            data.frame(stroke.features, stringsAsFactors = FALSE))
     mapfeat.stroke <-
       mapfeat.stroke[stats::complete.cases(mapfeat.stroke), ]
   }
@@ -323,7 +324,7 @@ map.feature <- function(languages,
         leaflet::colorNumeric(palette = color, domain = mapfeat.df$features)
     } else {
       if (length(mapfeat.df$features) == length(color)) {
-        df <- unique(data.frame(feature = mapfeat.df$features, color))
+        df <- unique(data.frame(feature = mapfeat.df$features, color, stringsAsFactors = FALSE))
         color <- as.character(df[order(df$feature), ]$color)
       }
       pal <-
@@ -348,7 +349,8 @@ map.feature <- function(languages,
         unique(
           data.frame(
             feature = mapfeat.df$density.estimation,
-            color = density.estimation.color
+            color = density.estimation.color,
+            stringsAsFactors = FALSE
           )
         )
       density.estimation.color <-
@@ -400,8 +402,8 @@ map.feature <- function(languages,
       polygon.points_kde(
         mapfeat.df[mapfeat.df$density.estimation == feature, 'lat'],
         mapfeat.df[mapfeat.df$density.estimation == feature, 'long'],
-        latitude_width = density.width[1],
-        longitude_width = density.width[2]
+        latitude.width = density.width[1],
+        longitude.width = density.width[2]
       )
     })
     } else{
@@ -467,8 +469,8 @@ map.feature <- function(languages,
         polygon.points_kde(
           mapfeat.df[mapfeat.df[, isogloss.df[i,2]] == isogloss.df[i,1], 'lat'],
           mapfeat.df[mapfeat.df[, isogloss.df[i,2]] == isogloss.df[i,1], 'long'],
-          latitude_width = isogloss.width[1],
-          longitude_width = isogloss.width[2])
+          latitude.width = isogloss.width[1],
+          longitude.width = isogloss.width[2])
     } else{
         polygon.points_fd(
           mapfeat.df[mapfeat.df[, isogloss.df[i,2]] == isogloss.df[i,1], 'lat'],
@@ -547,7 +549,7 @@ map.feature <- function(languages,
   } else if (line.type == "logit") {
     if (length(table(mapfeat.df$features)) == 2) {
       logit <-
-        stats::glm(mapfeat.df$features ~ mapfeat.df$long + mapfeat.df$lat,
+        stats::glm(factor(mapfeat.df$features) ~ mapfeat.df$long + mapfeat.df$lat,
                    family = stats::binomial)
       slope <- stats::coef(logit)[2] / (-stats::coef(logit)[3])
       intercept <- stats::coef(logit)[1] / (-stats::coef(logit)[3])
@@ -656,7 +658,7 @@ map.feature <- function(languages,
 
   # map: add points ----------------------------------------
   if (density.points != FALSE &
-      is.null(minichart) &
+      is.null(minichart.data) &
       is.null(shape)) {
     m <- m %>% leaflet::addCircleMarkers(
       lng = mapfeat.df$long,
@@ -691,7 +693,7 @@ map.feature <- function(languages,
 
   # map: add minicharts -----------------------------------------------------
 
-  if (!is.null(minichart) & is.null(shape)) {
+  if (!is.null(minichart.data) & is.null(shape)) {
     if (is.null(color)) {
       color = my_colors
     }
@@ -720,7 +722,7 @@ map.feature <- function(languages,
       popup = mapfeat.df$link,
       stroke = FALSE,
       radius = width,
-      fillOpacity = opacity,
+      fillOpacity = 0,
       color = pal(mapfeat.df$features),
       group = mapfeat.df$features,
       label = mapfeat.df$label,
@@ -920,7 +922,7 @@ map.feature <- function(languages,
     # map: legend -------------------------------------------------------------
     if (sum(mapfeat.df$features == "") < length(mapfeat.df$features) &
         legend == TRUE &
-        is.null(minichart) &
+        is.null(minichart.data) &
         is.null(shape)) {
       m <- m %>% leaflet::addLegend(
         title = title,

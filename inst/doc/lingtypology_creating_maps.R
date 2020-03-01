@@ -28,14 +28,14 @@ knitr::opts_chunk$set(eval = FALSE)
 #  map.feature(df$language, df$features)
 
 ## -----------------------------------------------------------------------------
-#  map.feature(ejective_and_n_consonants$language,
-#              ejective_and_n_consonants$ejectives) # categorical
-#  map.feature(ejective_and_n_consonants$language,
-#              ejective_and_n_consonants$consonants) # numeric
+#  map.feature(phonological_profiles$language,
+#              phonological_profiles$ejectives) # categorical
+#  map.feature(phonological_profiles$language,
+#              phonological_profiles$consonants) # numeric
 
 ## -----------------------------------------------------------------------------
-#  map.feature(ejective_and_n_consonants$language,
-#              ejective_and_n_consonants$consonants,
+#  map.feature(phonological_profiles$language,
+#              phonological_profiles$consonants,
 #              map.orientation = "Atlantic")
 
 ## -----------------------------------------------------------------------------
@@ -59,7 +59,7 @@ knitr::opts_chunk$set(eval = FALSE)
 
 ## -----------------------------------------------------------------------------
 #  # Create a dataframe with links to video
-#  sign_df <- data.frame(languages = c("American Sign Language", "Russian Sign Language", "French Sign Language"),
+#  sign_df <- data.frame(languages = c("American Sign Language", "Russian-Tajik Sign Language", "French Sign Language"),
 #                        popup = c("https://media.spreadthesign.com/video/mp4/13/48600.mp4", "https://media.spreadthesign.com/video/mp4/12/17639.mp4", "https://media.spreadthesign.com/video/mp4/10/17638.mp4"))
 #  
 #  # Change popup to an HTML code
@@ -106,8 +106,8 @@ knitr::opts_chunk$set(eval = FALSE)
 #              color= c("yellowgreen", "navy"))
 
 ## -----------------------------------------------------------------------------
-#  map.feature(ejective_and_n_consonants$language,
-#              ejective_and_n_consonants$consonants,
+#  map.feature(phonological_profiles$language,
+#              phonological_profiles$consonants,
 #              color= "magma")
 
 ## -----------------------------------------------------------------------------
@@ -191,32 +191,20 @@ knitr::opts_chunk$set(eval = FALSE)
 #                   popup = c("Adyghe", "Adyghe", "Slavic", "Slavic", "Slavic"))
 #  
 #  map.feature(df$lang, df$feature, df$popup,
-#              tile = "Thunderforest.OpenCycleMap")
+#              tile = "Stamen.TonerLite")
 
 ## -----------------------------------------------------------------------------
-#  df <- data.frame(lang = c("Adyghe", "Kabardian", "Polish", "Russian", "Bulgarian"),
-#                   feature = c("polysynthetic", "polysynthetic", "fusion", "fusion", "fusion"),
-#                   popup = c("Adyghe", "Adyghe", "Slavic", "Slavic", "Slavic"))
-#  
 #  map.feature(df$lang, df$feature, df$popup,
-#              tile = c("OpenStreetMap.BlackAndWhite", "Thunderforest.OpenCycleMap"))
+#              tile = c("OpenStreetMap", "Stamen.TonerLite"))
 
 ## -----------------------------------------------------------------------------
-#  df <- data.frame(lang = c("Adyghe", "Kabardian", "Polish", "Russian", "Bulgarian"),
-#                   feature = c("polysynthetic", "polysynthetic", "fusion", "fusion", "fusion"),
-#                   popup = c("Adyghe", "Adyghe", "Slavic", "Slavic", "Slavic"))
-#  
 #  map.feature(df$lang, df$feature, df$popup,
-#              tile = c("OpenStreetMap.BlackAndWhite", "Thunderforest.OpenCycleMap"),
-#              tile.name = c("b & w", "colored"))
+#              tile = c("OpenStreetMap", "Stamen.TonerLite"),
+#              tile.name = c("colored", "b & w"))
 
 ## -----------------------------------------------------------------------------
-#  df <- data.frame(lang = c("Adyghe", "Kabardian", "Polish", "Russian", "Bulgarian"),
-#                   feature = c("polysynthetic", "polysynthetic", "fusion", "fusion", "fusion"),
-#                   popup = c("Adyghe", "Adyghe", "Slavic", "Slavic", "Slavic"))
-#  
 #  map.feature(df$lang, df$feature, df$popup,
-#              tile = c("OpenStreetMap.BlackAndWhite", "Thunderforest.OpenCycleMap"),
+#              tile = c("OpenStreetMap", "Stamen.TonerLite"),
 #              control = TRUE)
 
 ## -----------------------------------------------------------------------------
@@ -231,29 +219,33 @@ knitr::opts_chunk$set(eval = FALSE)
 #              minimap.width = 100)
 
 ## -----------------------------------------------------------------------------
-#  map.feature(languages = ejective_and_n_consonants$language,
-#              minichart.data = ejective_and_n_consonants[, c("vowels", "consonants")],
-#              minichart = "bar")
+#  map.feature(languages = phonological_profiles$language,
+#              minichart.data = phonological_profiles[, c("vowels", "consonants")])
 
 ## -----------------------------------------------------------------------------
-#  map.feature(languages = ejective_and_n_consonants$language,
-#              minichart.data = ejective_and_n_consonants[, c("vowels", "consonants")],
+#  map.feature(languages = phonological_profiles$language,
+#              minichart.data = phonological_profiles[, c("vowels", "consonants")],
 #              minichart = "pie")
 
 ## -----------------------------------------------------------------------------
-#  map.feature(languages = ejective_and_n_consonants$language,
-#              minichart.data = ejective_and_n_consonants[, c("vowels", "consonants")],
-#              minichart = "bar",
+#  map.feature(languages = phonological_profiles$language,
+#              minichart.data = phonological_profiles[, c("vowels", "consonants")],
 #              color= c("yellowgreen", "navy"),
 #              opacity = 0.7,
-#              label = ejective_and_n_consonants$language,
+#              label = phonological_profiles$language,
 #              legend.position = "topleft")
 
 ## -----------------------------------------------------------------------------
-#  map.feature(languages = ejective_and_n_consonants$language,
-#              minichart.data = ejective_and_n_consonants[, c("vowels", "consonants")],
+#  map.feature(languages = phonological_profiles$language,
+#              minichart.data = phonological_profiles[, c("vowels", "consonants")],
 #              minichart = "pie",
 #              minichart.labels = TRUE)
+
+## -----------------------------------------------------------------------------
+#  map.feature(languages = phonological_profiles$language,
+#              minichart.data = phonological_profiles[, c("tone", "long_vowels", "stress", "ejectives")],
+#              minichart = "pie",
+#              width = 3)
 
 ## -----------------------------------------------------------------------------
 #  map.feature(circassian$language,
@@ -362,4 +354,8 @@ knitr::opts_chunk$set(eval = FALSE)
 ## -----------------------------------------------------------------------------
 #  map.feature(c("Russian", "Adyghe"),
 #              graticule = 5)
+
+## -----------------------------------------------------------------------------
+#  ggmap.feature(phonological_profiles$language, phonological_profiles$ejectives)
+#  ggmap.feature(phonological_profiles$language, phonological_profiles$consonants)
 

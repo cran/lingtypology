@@ -23,10 +23,6 @@ knitr::opts_chunk$set(message= FALSE, eval=FALSE)
 ## -----------------------------------------------------------------------------
 #  df <- phoible.feature(source = "UPSID")
 #  head(df)
-#  map.feature(df$language,
-#              features = df$phonemes,
-#              label = df$language,
-#              title = "Number of Phonemes")
 
 ## -----------------------------------------------------------------------------
 #  df <- afbo.feature(c("adjectivizer", "adverbializer"))
@@ -47,7 +43,7 @@ knitr::opts_chunk$set(message= FALSE, eval=FALSE)
 #              title = "Are there numeral classifiers?")
 
 ## -----------------------------------------------------------------------------
-#  df <- abvd.feature(50:55)
+#  df <- abvd.feature(c(292, 7))
 #  head(df)
 #  new_df <- df[df$word == "hand",]
 #  map.feature(new_df$language,
