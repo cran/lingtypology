@@ -12,10 +12,26 @@
 
 <meta name="author" content="George Moroz" />
 
-<meta name="date" content="2020-04-26" />
+<meta name="date" content="2020-10-04" />
 
 <title>lingtypology: creating maps</title>
 
+<script>// Hide empty <a> tag within highlighted CodeBlock for screen reader accessibility (see https://github.com/jgm/pandoc/issues/6352#issuecomment-626106786) -->
+// v0.0.1
+// Written by JooYoung Seo (jooyoung@psu.edu) and Atsushi Yasumoto on June 1st, 2020.
+
+document.addEventListener('DOMContentLoaded', function() {
+  const codeList = document.getElementsByClassName("sourceCode");
+  for (var i = 0; i < codeList.length; i++) {
+    var linkList = codeList[i].getElementsByTagName('a');
+    for (var j = 0; j < linkList.length; j++) {
+      if (linkList[j].innerHTML === "") {
+        linkList[j].setAttribute('aria-hidden', 'true');
+      }
+    }
+  }
+});
+</script>
 
 
 <style type="text/css">code{white-space: pre;}</style>
@@ -303,13 +319,13 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 <h1 class="title toc-ignore"><code>lingtypology</code>: creating maps</h1>
 <h4 class="author">George Moroz</h4>
-<h4 class="date">2020-04-26</h4>
+<h4 class="date">2020-10-04</h4>
 
 
 
 <div id="base-map" class="section level3">
 <h3>1. Base map</h3>
-<p>The most important part of the <code>lingtypology</code> package is the function <code>map.feature</code>. This function allows you to produce maps similar to known projects within <a href="http://clld.org/">the Cross-Linguistic Linked Data philosophy</a>, such as <a href="http://wals.info/">WALS</a> and <a href="http://glottolog.org/">Glottolog</a>:</p>
+<p>The most important part of the <code>lingtypology</code> package is the function <code>map.feature</code>. This function allows you to produce maps similar to known projects within <a href="https://clld.org/">the Cross-Linguistic Linked Data philosophy</a>, such as <a href="https://wals.info/">WALS</a> and <a href="https://glottolog.org/">Glottolog</a>:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">map.feature</span>(<span class="kw">c</span>(<span class="st">&quot;Adyghe&quot;</span>, <span class="st">&quot;Kabardian&quot;</span>, <span class="st">&quot;Polish&quot;</span>, <span class="st">&quot;Russian&quot;</span>, <span class="st">&quot;Bulgarian&quot;</span>))</span></code></pre></div>
 <p>As shown in the picture above, this function generates an interactive Leaflet map. All specific points on the map have a pop-up box that appears when markers are clicked (see section 3.3 for more information about editing pop-up boxes). By default, they contain language names linked to the glottolog site.</p>
 <p>If for some reasons you are not using RStudio or you want to automatically create and save a lot of maps, you can save a map to a variable and use the <code>htmlwidgets</code> package for saving created maps to an .html file. I would like to thank Timo Roettger for mentioning this problem.</p>
@@ -317,7 +333,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <span id="cb2-2"><a href="#cb2-2"></a><span class="co"># install.packages(&quot;htmlwidgets&quot;)</span></span>
 <span id="cb2-3"><a href="#cb2-3"></a><span class="kw">library</span>(htmlwidgets)</span>
 <span id="cb2-4"><a href="#cb2-4"></a><span class="kw">saveWidget</span>(m, <span class="dt">file=</span><span class="st">&quot;TYPE_FILE_PATH/m.html&quot;</span>)</span></code></pre></div>
-<p>There is an export button in RStudio, but for some reason it is not so easy to save a map as a .png or.jpg file using code. <a href="http://stackoverflow.com/a/34672309/6056442">Here</a> is a possible solution.</p>
+<p>There is an export button in RStudio, but for some reason it is not so easy to save a map as a .png or.jpg file using code. <a href="https://stackoverflow.com/a/34672309/6056442/">Here</a> is a possible solution.</p>
 </div>
 <div id="set-features" class="section level3">
 <h3>2. Set features</h3>
@@ -445,10 +461,11 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 </div>
 <div id="set-control-box" class="section level3">
 <h3>8. Set control box</h3>
-<p>The package can generate a control box that allows users to toggle the visibility of points and features. To enable it, there is an argument <code>control</code> in the <code>map.feature</code> function:</p>
+<p>The package can generate a control box that allows users to toggle the visibility of some points. To enable it, there is an argument <code>control</code> in the <code>map.feature</code> function:</p>
 <div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a><span class="kw">map.feature</span>(<span class="dt">languages =</span> df<span class="op">$</span>language,</span>
 <span id="cb23-2"><a href="#cb23-2"></a>            <span class="dt">features =</span> df<span class="op">$</span>features,</span>
-<span id="cb23-3"><a href="#cb23-3"></a>            <span class="dt">control =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+<span id="cb23-3"><a href="#cb23-3"></a>            <span class="dt">control =</span> <span class="kw">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>, <span class="st">&quot;b&quot;</span>, <span class="st">&quot;b&quot;</span>, <span class="st">&quot;a&quot;</span>))</span></code></pre></div>
+<p>As you can see the <code>control</code> and <code>features</code> arguments are independent of each other.</p>
 </div>
 <div id="set-an-additional-set-of-features-using-strokes" class="section level3">
 <h3>9. Set an additional set of features using strokes</h3>
