@@ -4,7 +4,7 @@
 #'
 #' @param feature A character vector that define a language id from ABVD (e. g. "1", "292").
 #' @author George Moroz <agricolamz@gmail.com>
-#' @seealso \code{\link{afbo.feature}}, \code{\link{autotyp.feature}}, \code{\link{oto_mangueanIC.feature}}, \code{\link{phoible.feature}}, \code{\link{sails.feature}}, \code{\link{valpal.feature}}, \code{\link{wals.feature}}
+#' @seealso \code{\link{afbo.feature}}, \code{\link{autotyp.feature}}, \code{\link{bivaltyp.feature}}, \code{\link{eurasianphonology.feature}}, \code{\link{oto_mangueanIC.feature}}, \code{\link{phoible.feature}}, \code{\link{sails.feature}}, \code{\link{soundcomparisons.feature}}, \code{\link{uralex.feature}}, \code{\link{valpal.feature}}, \code{\link{vanuatu.feature}}, \code{\link{wals.feature}}
 #' @examples
 #' # abvd.feature(c(292, 7))
 #' @export
@@ -12,9 +12,12 @@
 #' @importFrom utils read.csv
 #'
 
-abvd.feature <- function(feature) {message("Don't forget to cite a source:
+abvd.feature <- function(feature) {
+  message(
+    "Don't forget to cite a source:
 
-Greenhill, S.J., Blust. R, & Gray, R.D. (2008). The Austronesian Basic Vocabulary Database: From Bioinformatics to Lexomics. Evolutionary Bioinformatics, 4:271-283.")
+Greenhill, S.J., Blust. R, & Gray, R.D. (2008). The Austronesian Basic Vocabulary Database: From Bioinformatics to Lexomics. Evolutionary Bioinformatics, 4:271-283."
+  )
   if (is.numeric(feature)) {
     links <-
       paste0(

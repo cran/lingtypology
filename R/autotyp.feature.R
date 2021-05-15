@@ -4,7 +4,7 @@
 #'
 #' @param features A character vector that define with a feature names from AUTOTYP.
 #' @param na.rm Logical. If TRUE function removes all languages not available in lingtypology database. By default is TRUE.
-#' @author George Moroz <agricolamz@gmail.com>
+#' @seealso \code{\link{abvd.feature}}, \code{\link{afbo.feature}}, \code{\link{bivaltyp.feature}}, \code{\link{eurasianphonology.feature}}, \code{\link{oto_mangueanIC.feature}}, \code{\link{phoible.feature}}, \code{\link{sails.feature}}, \code{\link{soundcomparisons.feature}}, \code{\link{uralex.feature}}, \code{\link{valpal.feature}}, \code{\link{vanuatu.feature}}, \code{\link{wals.feature}}
 #' @seealso \code{\link{abvd.feature}}, \code{\link{afbo.feature}}, \code{\link{oto_mangueanIC.feature}}, \code{\link{phoible.feature}}, \code{\link{sails.feature}}, \code{\link{uralex.feature}}, \code{\link{valpal.feature}}, \code{\link{wals.feature}}
 #' @examples
 #' # autotyp.feature(c('Gender', 'Numeral classifiers'))
@@ -20,7 +20,6 @@ autotyp.feature <-
 
 Bickel, Balthasar, Johanna Nichols, Taras Zakharko, Alena Witzlack-Makarevich, Kristine Hildebrandt, Michael Rie\u00DFler, Lennart Bierkandt, Fernando Z\u00FA\u00F1iga & John B. Lowe. 2017. The AUTOTYP typological databases. Version ",
                    readLines("https://raw.githubusercontent.com/autotyp/autotyp-data/master/VERSION")))
-    features <- gsub(" ", "_", features)
     features_set <-
       c(
         "Agreement",
@@ -74,6 +73,10 @@ Bickel, Balthasar, Johanna Nichols, Taras Zakharko, Alena Witzlack-Makarevich, K
         "VInfl_macrocat_preposed",
         "Word_domains"
       )
+    features <- match.arg(arg = gsub(" ", "_", features),
+                          choices =  features_set,
+                          several.ok = TRUE)
+
     if (sum(!features %in% features_set) < 1) {
       links <-
         paste0(

@@ -10,13 +10,13 @@ valpal.feature(na.rm = FALSE)
 \item{na.rm}{Logical. If TRUE function removes all languages not available in lingtypology database. By default is FALSE.}
 }
 \description{
-This function downloads data from ValPal (\url{https://www.valpal.info/}) and changes language names to the names from lingtypology database. You need the internet connection.
+This function downloads data from ValPal (www.valpal.info/) and changes language names to the names from lingtypology database. You need the internet connection.
 }
 \examples{
 # valpal.feature()
 }
 \seealso{
-\code{\link{abvd.feature}}, \code{\link{afbo.feature}}, \code{\link{autotyp.feature}}, \code{\link{oto_mangueanIC.feature}}, \code{\link{phoible.feature}}, \code{\link{sails.feature}}, \code{\link{uralex.feature}}, \code{\link{wals.feature}}
+\code{\link{abvd.feature}}, \code{\link{afbo.feature}}, \code{\link{autotyp.feature}}, \code{\link{bivaltyp.feature}}, \code{\link{eurasianphonology.feature}}, \code{\link{oto_mangueanIC.feature}}, \code{\link{phoible.feature}}, \code{\link{sails.feature}}, \code{\link{soundcomparisons.feature}}, \code{\link{uralex.feature}}, \code{\link{vanuatu.feature}}, \code{\link{wals.feature}}
 }
 \author{
 George Moroz <agricolamz@gmail.com>
