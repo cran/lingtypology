@@ -1,9 +1,10 @@
 #' Make a url-link to glottolog page for a language
 #'
-#' Takes any vector of languages and return links to glottolog pages.
+#' Takes any vector of languages and returns links to glottolog pages.
 #' @param x A character vector of languages (can be written in lower case)
 #' @param popup character vector of strings that will appear in pop-up window of the function map.feature
 #' @author George Moroz <agricolamz@gmail.com>
+#' @seealso \code{\link{aff.lang}}, \code{\link{area.lang}}, \code{\link{country.lang}}, \code{\link{gltc.lang}}, \code{\link{iso.lang}}, \code{\link{lat.lang}}, \code{\link{long.lang}}, \code{\link{subc.lang}}
 #' @examples
 #' url.lang('Korean')
 #' url.lang(c('Gangou', 'Hachijo', 'Adyghe', 'Ganai'))

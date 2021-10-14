@@ -10,7 +10,7 @@ lat.lang(x)
 \item{x}{A character vector of the languages (can be written in lower case)}
 }
 \description{
-Takes any vector of languages and return latitude.
+Takes any vector of languages and returns latitude.
 }
 \examples{
 lat.lang('Adyghe')
@@ -19,7 +19,7 @@ lat.lang(c('Adyghe', 'Russian'))
 long.lang(c('Adyghe', 'Russian'))
 }
 \seealso{
-\code{\link{aff.lang}}, \code{\link{area.lang}}, \code{\link{iso.lang}}, \code{\link{long.lang}}
+\code{\link{aff.lang}}, \code{\link{area.lang}}, \code{\link{country.lang}}, \code{\link{gltc.lang}}, \code{\link{iso.lang}}, \code{\link{long.lang}}, \code{\link{subc.lang}}, \code{\link{url.lang}}
 }
 \author{
 George Moroz <agricolamz@gmail.com>

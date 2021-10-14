@@ -12,7 +12,7 @@
 
 <meta name="author" content="George Moroz" />
 
-<meta name="date" content="2021-05-15" />
+<meta name="date" content="2021-10-14" />
 
 <title>lingtypology: creating maps</title>
 
@@ -141,7 +141,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <h1 class="title toc-ignore"><code>lingtypology</code>: creating maps</h1>
 <h4 class="author">George Moroz</h4>
-<h4 class="date">2021-05-15</h4>
+<h4 class="date">2021-10-14</h4>
 
 
 
@@ -172,7 +172,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Like in most functions, it is not necessary to name all arguments, so the same result can be obtained by:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">map.feature</span>(df<span class="sc">$</span>language, df<span class="sc">$</span>features)</span></code></pre></div>
 <p>As shown in the picture above, all points are grouped by feature, colored and counted. As before, a pop-up box appears when markers are clicked. A control feature allows users to toggle the visibility of points grouped by feature.</p>
-<p>There are several types of variables in R and <code>map.feature</code> works differently depending on the variable type. I will use a build in data set <code>phonological_profiles</code> that contains 19 languages from <a href="http://www.lapsyd.ddl.cnrs.fr/lapsyd/">UPSyD database</a>. This dataset have three variables: the categorical variable <code>ejectives</code> indicates whether some language has any ejective sound, numeric variables <code>consonants</code> and <code>vowels</code> that contains information about the number of consonants and vowels (based on UPSyD database). We can create two maps with categorical variable and with numeric variable:</p>
+<p>There are several types of variables in R and <code>map.feature</code> works differently depending on the variable type. I will use a build in data set <code>phonological_profiles</code> that contains 19 languages from <a href="https://lapsyd.huma-num.fr/lapsyd/">UPSyD database</a>. This dataset have three variables: the categorical variable <code>ejectives</code> indicates whether some language has any ejective sound, numeric variables <code>consonants</code> and <code>vowels</code> that contains information about the number of consonants and vowels (based on UPSyD database). We can create two maps with categorical variable and with numeric variable:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">map.feature</span>(phonological_profiles<span class="sc">$</span>language,</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>            phonological_profiles<span class="sc">$</span>ejectives) <span class="co"># categorical</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">map.feature</span>(phonological_profiles<span class="sc">$</span>language,</span>
@@ -387,7 +387,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div id="add-minicharts-instead-of-points" class="section level3">
 <h3>15. Add minicharts instead of points</h3>
-<p>This part is created using the beutifull <a href="https://CRAN.R-project.org/package=leaflet.minicharts"><code>leaflet.minicharts</code> library</a>. The argument <code>minichart</code> allows you to add piecharts or barplots instead of standard point markers. In this part I will use a build in data set <code>phonological_profiles</code> that contains 19 languages from <a href="http://www.lapsyd.ddl.cnrs.fr/lapsyd/">UPSyD database</a>. Here is an example of barplot:</p>
+<p>This part is created using the beutifull <a href="https://CRAN.R-project.org/package=leaflet.minicharts"><code>leaflet.minicharts</code> library</a>. The argument <code>minichart</code> allows you to add piecharts or barplots instead of standard point markers. In this part I will use a build in data set <code>phonological_profiles</code> that contains 19 languages from <a href="https://lapsyd.huma-num.fr/lapsyd/">UPSyD database</a>. Here is an example of barplot:</p>
 <div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">map.feature</span>(<span class="at">languages =</span> phonological_profiles<span class="sc">$</span>language,</span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">minichart.data =</span> phonological_profiles[, <span class="fu">c</span>(<span class="st">&quot;vowels&quot;</span>, <span class="st">&quot;consonants&quot;</span>)])</span></code></pre></div>
 <p>Here is an example of piechart:</p>

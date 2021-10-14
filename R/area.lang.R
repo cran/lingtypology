@@ -1,9 +1,9 @@
 #' Get macro area by language
 #'
-#' Takes any vector of languages and return macro area.
+#' Takes any vector of languages and returns macro area.
 #' @param x character vector of the languages (can be written in lower case)
 #' @author George Moroz <agricolamz@gmail.com>
-#' @seealso \code{\link{aff.lang}}, \code{\link{iso.lang}}, \code{\link{lat.lang}}, \code{\link{long.lang}}
+#' @seealso \code{\link{aff.lang}}, \code{\link{country.lang}}, \code{\link{gltc.lang}}, \code{\link{iso.lang}}, \code{\link{lat.lang}}, \code{\link{long.lang}}, \code{\link{subc.lang}}, \code{\link{url.lang}}
 #' @examples
 #' area.lang('Adyghe')
 #' area.lang(c('Adyghe', 'Aduge'))
