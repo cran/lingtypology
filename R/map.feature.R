@@ -300,7 +300,7 @@ map.feature <- function(languages,
   }
 
   # create a palette ---------------------------------------------------------
-  set.seed(45)
+  set.seed(42)
   my_colors <-
     c(
       "#1f77b4",
@@ -684,25 +684,15 @@ map.feature <- function(languages,
       is.null(minichart.data) &
       is.null(shape)) {
     m <- m %>% leaflet::addCircleMarkers(
-      lng = mapfeat.df$long,
-      lat = mapfeat.df$lat,
-      popup = mapfeat.df$link,
-      clusterOptions = point.cluster,
-      stroke = FALSE,
-      radius = width * 1.1,
-      fillOpacity = opacity,
-      color = "black",
-      group = mapfeat.df$control
-    ) %>%
-      leaflet::addCircleMarkers(
         lng = mapfeat.df$long,
         lat = mapfeat.df$lat,
         popup = mapfeat.df$link,
         clusterOptions = point.cluster,
         stroke = FALSE,
+        weight = 1,
         radius = width,
         fillOpacity = opacity,
-        color = pal(mapfeat.df$features),
+        fillColor = pal(mapfeat.df$features),
         group = mapfeat.df$control,
         label = mapfeat.df$label,
         labelOptions = leaflet::labelOptions(
@@ -912,7 +902,7 @@ map.feature <- function(languages,
 
   # map: tile and control interaction --------------------------------------
   if (length(tile) > 1) {
-    if (length(unique(mapfeat.df$control))>1) {
+    if (length(unique(mapfeat.df$control)) > 0 & !("" %in% unique(mapfeat.df$control))) {
       m <- m %>% leaflet::addLayersControl(
         baseGroups = tile.name,
         overlayGroups = mapfeat.df$control,
@@ -931,7 +921,7 @@ map.feature <- function(languages,
       )
     }
   } else {
-    if (length(unique(mapfeat.df$control))>1) {
+    if (length(unique(mapfeat.df$control))>0 & !("" %in% unique(mapfeat.df$control))) {
       m <- m %>% leaflet::addLayersControl(
         overlayGroups = mapfeat.df$control,
         options = leaflet::layersControlOptions(collapsed = FALSE)
