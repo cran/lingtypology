@@ -1,3 +1,10 @@
+lingtypology 1.1.10
+- remove `ggplot2` dependencies
+- add startup message with the Glottolog version
+- fix `autotyp.feature()`
+- add the `iso3.iso1()` function
+- add the `frequency_list.feature()` function
+
 lingtypology 1.1.9
 - fix colors in `map.features()`
 - update the `autotyp.feature()` function after the new release 1.0.0
