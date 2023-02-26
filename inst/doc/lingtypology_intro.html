@@ -12,7 +12,7 @@
 
 <meta name="author" content="George Moroz" />
 
-<meta name="date" content="2022-12-19" />
+<meta name="date" content="2023-02-25" />
 
 <title>lingtypology: introduction and installation</title>
 
@@ -341,7 +341,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <h1 class="title toc-ignore"><code>lingtypology</code>: introduction and
 installation</h1>
 <h4 class="author">George Moroz</h4>
-<h4 class="date">2022-12-19</h4>
+<h4 class="date">2023-02-25</h4>
 
 
 
@@ -365,14 +365,14 @@ this vignette.</p>
 <div id="installation" class="section level3">
 <h3>1. Installation</h3>
 <p>Since <code>lingtypology</code> is an R package, you should install
-<a href="https://www.r-project.org/">R (version &gt;= 3.1.0)</a> on your
+<a href="https://www.r-project.org/">R (version &gt;= 3.5.0)</a> on your
 PC if you haven’t already done so. To install the
 <code>lingtypology</code> package, run the following command at your R
 IDE, so you get the stable version from CRAN:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;lingtypology&quot;</span>, <span class="at">dependencies =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p>You can also get the development version from GitHub:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;devtools&quot;</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;ropensci/lingtypology&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;remotes&quot;</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;ropensci/lingtypology&quot;</span>)</span></code></pre></div>
 <p>Load the package:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lingtypology)</span></code></pre></div>
 </div>
