@@ -4,7 +4,7 @@
 #' involving genealogical affiliation, macro-area, country, iso code,
 #' and coordinates.
 #'
-#' Hammarstr{\"o}m, Harald and Forkel, Robert and Haspelmath, Martin and Bank, Sebastian. 2023.
+#' Hammarstrom, Harald and Forkel, Robert and Haspelmath, Martin and Bank, Sebastian. 2023.
 #' Glottolog 4.8.
 #' Leipzig: Max Planck Institute for Evolutionary Anthropology.
 #' https://doi.org/10.5281/zenodo.6578297

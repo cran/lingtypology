@@ -12,7 +12,7 @@
 
 <meta name="author" content="George Moroz" />
 
-<meta name="date" content="2023-08-23" />
+<meta name="date" content="2024-02-04" />
 
 <title>lingtypology: creating maps</title>
 
@@ -341,7 +341,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <h1 class="title toc-ignore"><code>lingtypology</code>: creating
 maps</h1>
 <h4 class="author">George Moroz</h4>
-<h4 class="date">2023-08-23</h4>
+<h4 class="date">2024-02-04</h4>
 
 
 
@@ -684,20 +684,20 @@ or<code>FALSE</code>) and its position (use
 <span id="cb31-3"><a href="#cb31-3" tabindex="-1"></a>                 <span class="at">popup =</span> <span class="fu">c</span>(<span class="st">&quot;Adyghe&quot;</span>, <span class="st">&quot;Adyghe&quot;</span>, <span class="st">&quot;Slavic&quot;</span>, <span class="st">&quot;Slavic&quot;</span>, <span class="st">&quot;Slavic&quot;</span>))</span>
 <span id="cb31-4"><a href="#cb31-4" tabindex="-1"></a></span>
 <span id="cb31-5"><a href="#cb31-5" tabindex="-1"></a><span class="fu">map.feature</span>(df<span class="sc">$</span>lang, df<span class="sc">$</span>feature, df<span class="sc">$</span>popup,</span>
-<span id="cb31-6"><a href="#cb31-6" tabindex="-1"></a>            <span class="at">tile =</span> <span class="st">&quot;Stamen.TonerLite&quot;</span>)</span></code></pre></div>
+<span id="cb31-6"><a href="#cb31-6" tabindex="-1"></a>            <span class="at">tile =</span> <span class="st">&quot;Esri.WorldGrayCanvas&quot;</span>)</span></code></pre></div>
 <p>It is possible to use different map tiles on the same map. Just add a
 vector with tiles.</p>
 <div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" tabindex="-1"></a><span class="fu">map.feature</span>(df<span class="sc">$</span>lang, df<span class="sc">$</span>feature, df<span class="sc">$</span>popup,</span>
-<span id="cb32-2"><a href="#cb32-2" tabindex="-1"></a>            <span class="at">tile =</span> <span class="fu">c</span>(<span class="st">&quot;OpenStreetMap&quot;</span>, <span class="st">&quot;Stamen.TonerLite&quot;</span>))</span></code></pre></div>
+<span id="cb32-2"><a href="#cb32-2" tabindex="-1"></a>            <span class="at">tile =</span> <span class="fu">c</span>(<span class="st">&quot;OpenStreetMap&quot;</span>, <span class="st">&quot;Esri.WorldGrayCanvas&quot;</span>))</span></code></pre></div>
 <p>It is possible to name tiles using the <code>tile.name</code>
 argument.</p>
 <div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" tabindex="-1"></a><span class="fu">map.feature</span>(df<span class="sc">$</span>lang, df<span class="sc">$</span>feature, df<span class="sc">$</span>popup,</span>
-<span id="cb33-2"><a href="#cb33-2" tabindex="-1"></a>            <span class="at">tile =</span> <span class="fu">c</span>(<span class="st">&quot;OpenStreetMap&quot;</span>, <span class="st">&quot;Stamen.TonerLite&quot;</span>),</span>
+<span id="cb33-2"><a href="#cb33-2" tabindex="-1"></a>            <span class="at">tile =</span> <span class="fu">c</span>(<span class="st">&quot;OpenStreetMap&quot;</span>, <span class="st">&quot;Esri.WorldGrayCanvas&quot;</span>),</span>
 <span id="cb33-3"><a href="#cb33-3" tabindex="-1"></a>            <span class="at">tile.name =</span> <span class="fu">c</span>(<span class="st">&quot;colored&quot;</span>, <span class="st">&quot;b &amp; w&quot;</span>))</span></code></pre></div>
 <p>It is possible to combine the tiles’ control box with the features’
 control box.</p>
 <div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" tabindex="-1"></a><span class="fu">map.feature</span>(df<span class="sc">$</span>lang, df<span class="sc">$</span>feature, df<span class="sc">$</span>popup,</span>
-<span id="cb34-2"><a href="#cb34-2" tabindex="-1"></a>            <span class="at">tile =</span> <span class="fu">c</span>(<span class="st">&quot;OpenStreetMap&quot;</span>, <span class="st">&quot;Stamen.TonerLite&quot;</span>),</span>
+<span id="cb34-2"><a href="#cb34-2" tabindex="-1"></a>            <span class="at">tile =</span> <span class="fu">c</span>(<span class="st">&quot;OpenStreetMap&quot;</span>, <span class="st">&quot;Esri.WorldGrayCanvas&quot;</span>),</span>
 <span id="cb34-3"><a href="#cb34-3" tabindex="-1"></a>            <span class="at">control =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 </div>
 <div id="add-a-minimap-to-a-map" class="section level3">
