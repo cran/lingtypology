@@ -1,11 +1,11 @@
-## ---- include=FALSE-----------------------------------------------------------
+## ----include=FALSE------------------------------------------------------------
 library(lingtypology)
 knitr::opts_chunk$set(eval = FALSE)
 
 ## -----------------------------------------------------------------------------
 #  map.feature(c("West Circassian", "Kabardian", "Polish", "Russian", "Bulgarian"))
 
-## ---- eval = FALSE------------------------------------------------------------
+## ----eval = FALSE-------------------------------------------------------------
 #  m <- map.feature(c("West Circassian", "Korean"))
 #  # install.packages("htmlwidgets")
 #  library(htmlwidgets)
@@ -168,7 +168,7 @@ knitr::opts_chunk$set(eval = FALSE)
 #              latitude = circassian$latitude,
 #              longitude = circassian$longitude)
 
-## ---- message= F--------------------------------------------------------------
+## ----message= F---------------------------------------------------------------
 #  # create newfeature variable
 #  newfeature <- circassian[,c(5,6)]
 #  # set language feature of the Baksan villages to NA and reduce newfeature from dataframe to vector

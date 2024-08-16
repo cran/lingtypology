@@ -1,4 +1,4 @@
-## ---- include=FALSE-----------------------------------------------------------
+## ----include=FALSE------------------------------------------------------------
 library(lingtypology)
 knitr::opts_chunk$set(message= FALSE, eval=FALSE)
 
@@ -52,7 +52,7 @@ knitr::opts_chunk$set(message= FALSE, eval=FALSE)
 #              label = df$language,
 #              title = "Are there numeral classifiers?")
 
-## ---- eval = FALSE------------------------------------------------------------
+## ----eval = FALSE-------------------------------------------------------------
 #  df <- abvd.feature(c(292, 7))
 #  head(df)
 #  new_df <- df[df$word == "hand",]
