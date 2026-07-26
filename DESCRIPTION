@@ -1,7 +1,7 @@
 Package: lingtypology
 Type: Package
 Title: Linguistic Typology and Mapping
-Version: 1.1.25
+Version: 1.1.26
 Depends: R (>= 4.2.0)
 Imports: leaflet, leaflet.minicharts, stats, utils, stringdist,
         grDevices, jsonlite
@@ -27,12 +27,12 @@ URL: https://CRAN.R-project.org/package=lingtypology,
         https://ropensci.github.io/lingtypology/
 BugReports: https://github.com/ropensci/lingtypology/issues
 LazyData: TRUE
-RoxygenNote: 7.3.3
 Encoding: UTF-8
 Suggests: knitr, rmarkdown, testthat, MASS, sp, sf, ape
 VignetteBuilder: knitr
+Config/roxygen2/version: 8.0.0
 NeedsCompilation: no
-Packaged: 2026-03-02 23:29:34 UTC; agricolamz
+Packaged: 2026-07-26 07:05:01 UTC; agricolamz
 Author: George Moroz [aut, cre] (ORCID:
     <https://orcid.org/0000-0003-1990-6083>),
   Kirill Koncha [ctb] (ORCID: <https://orcid.org/0000-0003-0676-2658>),
@@ -41,4 +41,4 @@ Author: George Moroz [aut, cre] (ORCID:
   Ekaterina Zalivina [ctb]
 Maintainer: George Moroz <agricolamz@gmail.com>
 Repository: CRAN
-Date/Publication: 2026-03-02 23:50:02 UTC
+Date/Publication: 2026-07-26 07:20:02 UTC
